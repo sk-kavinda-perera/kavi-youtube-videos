@@ -8,12 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e0f11;--border:#2a2b2e;--accent:#e8c547;--accent2:#4f8ef7;--green:#3ecf8e;--text:#e8e6e0;--muted:#6b6966;--card:#1c1d20}
+:root{--bg:#0e0f11;--border:#2a2b2e;--accent:#e8c547;--accent2:#4f8ef7;--green:#3ecf8e;--text:#e8e6e0;--muted:#6b6966;--card:#1c1d20;--red:#f87171}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:.4}
 
-/* ── LOGIN PAGE ── */
+/* ── LOGIN ── */
 #login-page{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
 #login-page.hidden{display:none}
 .login-box{width:100%;max-width:380px;padding:2.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
@@ -23,101 +23,132 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .login-label{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
 .login-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;margin-bottom:1rem}
 .login-input:focus{border-color:var(--accent)}
-.login-input.error{border-color:#f87171;animation:shake .3s ease}
+.login-input.error{border-color:var(--red);animation:shake .3s ease}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .login-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:7px;padding:.8rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;transition:opacity .2s}
 .login-btn:hover{opacity:.88}
 .login-btn:disabled{opacity:.5;cursor:not-allowed}
-.login-error{font-size:.8rem;color:#f87171;margin-top:.75rem;min-height:1.2em;text-align:center}
+.login-error{font-size:.8rem;color:var(--red);margin-top:.75rem;min-height:1.2em;text-align:center}
 .login-expire{font-size:.72rem;color:var(--muted);margin-top:1.2rem;text-align:center}
 .login-expire span{color:var(--accent2)}
 
-/* ── MAIN APP (hidden until logged in) ── */
-#app{display:none}
-#app.visible{display:block}
-
-nav{position:sticky;top:0;z-index:50;background:rgba(14,15,17,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,4vw,3rem);display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
-.logo span{color:var(--accent)}
-nav ul{display:flex;gap:0;list-style:none}
-.tab-btn{padding:.4rem 1.1rem;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:color .2s;border-bottom:2px solid transparent}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.session-timer{font-size:.75rem;color:var(--muted);padding:.3rem .7rem;border:1px solid var(--border);border-radius:100px}
-.session-timer.warning{color:#f87171;border-color:#f87171}
-.hero{padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,3rem) clamp(2rem,5vw,3rem);max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;border-bottom:1px solid var(--border)}
-.hero-tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.hero-tag::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
-h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.1;letter-spacing:-.03em}
-h1 em{font-style:italic;color:var(--accent)}
-.hero-meta{text-align:right;color:var(--muted);font-size:.82rem;line-height:1.8}
-.hero-meta strong{display:block;font-size:2rem;font-family:'Playfair Display',serif;color:var(--text);font-weight:400}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.grid-wrapper{max-width:1400px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem)}
-.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem}
-.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;letter-spacing:-.02em}
-.section-count{font-size:.8rem;color:var(--muted)}
-.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
-.video-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:transform .25s,border-color .25s;opacity:0;transform:translateY(16px)}
-.video-card.visible{animation:fadeUp .5s ease forwards}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-.video-card:hover{transform:translateY(-3px);border-color:#3a3b3e}
-.video-wrap{position:relative;padding-bottom:56.25%;background:#000}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.thumb-overlay{position:absolute;inset:0;z-index:2;cursor:pointer;transition:opacity .3s}
-.thumb-overlay img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb-overlay .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
-.thumb-overlay:hover .play-btn{background:rgba(232,197,71,.9);transform:translate(-50%,-50%) scale(1.08)}
-.play-btn svg{width:26px;height:26px;fill:white;margin-left:4px}
-.video-wrap.playing .thumb-overlay{opacity:0;pointer-events:none}
-.skeleton{background:linear-gradient(90deg,var(--border) 25%,#2e2f32 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.card-body{padding:1rem 1.1rem 1.2rem}
-.card-channel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem;min-height:14px}
-.card-title{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:.5rem;color:var(--text);min-height:40px}
-.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted)}
-.stats-wrapper{max-width:1400px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.stat-card.views::before{background:var(--accent)}
-.stat-card.hours::before{background:var(--accent2)}
-.stat-card.users::before{background:var(--green)}
-.stat-card.sessions::before{background:#f97316}
-.stat-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
-.stat-value{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;letter-spacing:-.03em;line-height:1}
-.stat-sub{font-size:.75rem;color:var(--muted);margin-top:.4rem}
-.stats-section-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:1rem}
-.video-stats-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.video-stats-table th{text-align:left;padding:.6rem .8rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);font-weight:400}
-.video-stats-table td{padding:.65rem .8rem;border-bottom:1px solid rgba(42,43,46,.5);color:var(--text)}
-.video-stats-table tr:hover td{background:rgba(255,255,255,.02)}
-.td-title{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar-wrap{background:var(--border);border-radius:100px;height:4px;overflow:hidden;min-width:80px}
-.bar-fill{height:100%;background:var(--accent);border-radius:100px;transition:width .6s ease}
-.badge{display:inline-block;padding:.2rem .5rem;border-radius:4px;font-size:.68rem;font-weight:500}
-.badge-green{background:rgba(62,207,142,.15);color:var(--green)}
-.badge-blue{background:rgba(79,142,247,.15);color:var(--accent2)}
-.stats-reset-btn{margin-top:1.5rem;padding:.5rem 1.2rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s}
-.stats-reset-btn:hover{border-color:#555;color:var(--text)}
-#unmute-bar{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:.6rem 1.5rem;border-radius:100px;font-size:.85rem;font-weight:500;cursor:pointer;z-index:200;display:none;box-shadow:0 4px 24px rgba(232,197,71,.4);white-space:nowrap;animation:popIn .3s ease}
-@keyframes popIn{from{transform:translateX(-50%) scale(.9);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
-
-/* Expire overlay */
+/* ── EXPIRE OVERLAY ── */
 #expire-overlay{position:fixed;inset:0;background:rgba(14,15,17,.97);z-index:998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center}
 #expire-overlay.show{display:flex}
 #expire-overlay h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text)}
 #expire-overlay p{color:var(--muted);font-size:.9rem}
 #expire-overlay button{margin-top:.5rem;background:var(--accent);color:#000;border:none;padding:.7rem 1.8rem;border-radius:7px;font-size:.9rem;font-weight:500;cursor:pointer}
 
-footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
-@media(max-width:600px){.hero{grid-template-columns:1fr}.hero-meta{text-align:left}}
+/* ── APP ── */
+#app{display:none}
+#app.visible{display:block}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:50;background:rgba(14,15,17,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,4vw,2rem);display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
+.logo span{color:var(--accent)}
+.session-timer{font-size:.75rem;color:var(--muted);padding:.3rem .7rem;border:1px solid var(--border);border-radius:100px}
+.session-timer.warning{color:var(--red);border-color:var(--red)}
+
+/* ── LAYOUT: video left, stats right ── */
+.main-layout{max-width:1400px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,2rem);display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start}
+
+/* ── VIDEO PLAYER SIDE ── */
+.player-section{}
+.now-playing-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.now-playing-label::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+
+/* Main player */
+.main-player-wrap{position:relative;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.main-player-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+/* Click-to-start overlay */
+.start-overlay{position:absolute;inset:0;z-index:5;background:rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;backdrop-filter:blur(2px)}
+.start-overlay:hover{background:rgba(0,0,0,.4)}
+.start-overlay.hidden{display:none}
+.big-play{width:80px;height:80px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;transition:transform .2s;box-shadow:0 8px 32px rgba(232,197,71,.4)}
+.start-overlay:hover .big-play{transform:scale(1.08)}
+.big-play svg{width:32px;height:32px;fill:#000;margin-left:5px}
+.start-overlay p{color:#fff;font-size:.9rem;letter-spacing:.05em}
+
+/* Video info */
+.video-info{padding:1rem 0 .5rem}
+.video-title{font-family:'Playfair Display',serif;font-size:1.3rem;line-height:1.3;margin-bottom:.4rem}
+.video-meta{font-size:.78rem;color:var(--muted);display:flex;gap:1rem;align-items:center}
+.video-meta .yt-views{color:var(--accent2)}
+
+/* Progress bar */
+.watch-progress-wrap{margin:.8rem 0;background:var(--border);border-radius:100px;height:4px;overflow:hidden}
+.watch-progress-bar{height:100%;background:var(--accent);border-radius:100px;width:0%;transition:width .5s linear}
+.watch-progress-label{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+
+/* Playlist */
+.playlist-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.2rem 0 .6rem;display:flex;align-items:center;justify-content:space-between}
+.playlist{display:flex;flex-direction:column;gap:.5rem;max-height:360px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.playlist-item{display:flex;gap:.7rem;padding:.6rem;border-radius:7px;cursor:pointer;transition:background .15s;border:1px solid transparent;align-items:center}
+.playlist-item:hover{background:var(--card);border-color:var(--border)}
+.playlist-item.active{background:var(--card);border-color:var(--accent)}
+.playlist-thumb{width:80px;min-width:80px;aspect-ratio:16/9;object-fit:cover;border-radius:4px;background:#000}
+.playlist-info{flex:1;min-width:0}
+.playlist-title{font-size:.78rem;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:.2rem}
+.playlist-item.active .playlist-title{color:var(--accent)}
+.playlist-views{font-size:.7rem;color:var(--muted)}
+.playlist-num{font-size:.7rem;color:var(--muted);min-width:16px}
+.playlist-item.active .playlist-num{color:var(--accent)}
+
+/* Playing indicator */
+.playing-dot{display:none;width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1s infinite}
+.playlist-item.active .playing-dot{display:block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── STATS SIDE ── */
+.stats-side{position:sticky;top:76px}
+.stats-header{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem;color:var(--text)}
+
+.stat-block{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;margin-bottom:.7rem;position:relative;overflow:hidden}
+.stat-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.stat-block.views::before{background:var(--accent)}
+.stat-block.hours::before{background:var(--accent2)}
+.stat-block.users::before{background:var(--green)}
+.stat-block.played::before{background:#f97316}
+.stat-block-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.stat-block-value{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;line-height:1;letter-spacing:-.02em}
+.stat-block-sub{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+
+/* Per-video breakdown */
+.breakdown-header{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.2rem 0 .6rem;display:flex;justify-content:space-between}
+.breakdown-list{display:flex;flex-direction:column;gap:.4rem;max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.bk-item{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.6rem .8rem}
+.bk-item.active-video{border-color:var(--accent)}
+.bk-title{font-size:.75rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-bottom:.4rem;max-width:100%}
+.bk-item.active-video .bk-title{color:var(--accent)}
+.bk-row{display:flex;gap:.5rem;font-size:.68rem;color:var(--muted);flex-wrap:wrap;margin-bottom:.3rem}
+.bk-tag{padding:.1rem .4rem;border-radius:3px;background:rgba(255,255,255,.05)}
+.bk-tag.green{background:rgba(62,207,142,.12);color:var(--green)}
+.bk-tag.blue{background:rgba(79,142,247,.12);color:var(--accent2)}
+.bk-tag.yellow{background:rgba(232,197,71,.12);color:var(--accent)}
+.bk-bar-wrap{background:var(--border);border-radius:100px;height:3px;overflow:hidden}
+.bk-bar-fill{height:100%;background:var(--accent);border-radius:100px;transition:width .5s ease}
+
+.reset-btn{width:100%;margin-top:.8rem;padding:.45rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;transition:all .2s}
+.reset-btn:hover{border-color:#555;color:var(--text)}
+
+footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,4vw,3rem);max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.78rem}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,var(--border) 25%,#2e2f32 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px;display:inline-block}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:900px){
+  .main-layout{grid-template-columns:1fr}
+  .stats-side{position:static}
+  .breakdown-list{max-height:none}
+}
 </style>
 </head>
 <body>
 
-<!-- ── LOGIN PAGE ── -->
+<!-- LOGIN -->
 <div id="login-page">
   <div class="login-box">
     <div class="login-logo">Video<span>Vault</span></div>
@@ -131,57 +162,94 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-
   </div>
 </div>
 
-<!-- ── SESSION EXPIRED OVERLAY ── -->
+<!-- EXPIRE -->
 <div id="expire-overlay">
   <h2>Session Expired</h2>
   <p>Your 1-hour session has ended. Please log in again.</p>
   <button onclick="showLogin()">Log In Again</button>
 </div>
 
-<!-- ── MAIN APP ── -->
+<!-- APP -->
 <div id="app">
   <nav>
     <a href="#" class="logo">Video<span>Vault</span></a>
-    <ul>
-      <li><button class="tab-btn active" onclick="switchTab('videos',this)">Videos</button></li>
-      <li><button class="tab-btn" onclick="switchTab('stats',this)">📊 Stats</button></li>
-    </ul>
     <div class="session-timer" id="session-timer">60:00</div>
   </nav>
 
-  <div class="hero">
-    <div>
-      <div class="hero-tag">Daily Picks</div>
-      <h1>The internet's best<br><em>videos</em>, curated.</h1>
-    </div>
-    <div class="hero-meta"><strong>20</strong>videos today</div>
-  </div>
+  <div class="main-layout">
 
-  <div id="tab-videos" class="tab-content active">
-    <div class="grid-wrapper">
-      <div class="section-header">
-        <h2 class="section-title">Today's Collection</h2>
-        <span class="section-count">20 videos</span>
-      </div>
-      <div class="video-grid" id="video-grid"></div>
-    </div>
-  </div>
+    <!-- LEFT: Player + Playlist -->
+    <div class="player-section">
+      <div class="now-playing-label">Now Playing</div>
 
-  <div id="tab-stats" class="tab-content">
-    <div class="stats-wrapper">
-      <div class="stats-grid">
-        <div class="stat-card views"><div class="stat-label">Total Views Generated</div><div class="stat-value" id="stat-views">0</div><div class="stat-sub" id="stat-views-today">+0 today</div></div>
-        <div class="stat-card hours"><div class="stat-label">Watch Hours Generated</div><div class="stat-value" id="stat-hours">0</div><div class="stat-sub" id="stat-hours-sub">minutes watched</div></div>
-        <div class="stat-card users"><div class="stat-label">Unique Visitors</div><div class="stat-value" id="stat-users">0</div><div class="stat-sub">sessions tracked</div></div>
-        <div class="stat-card sessions"><div class="stat-label">Videos Played</div><div class="stat-value" id="stat-played">0</div><div class="stat-sub">across all sessions</div></div>
+      <!-- Main player -->
+      <div class="main-player-wrap" id="main-player-wrap">
+        <iframe id="yt-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- Click-to-start overlay — forces user interaction = counted view -->
+        <div class="start-overlay" id="start-overlay" onclick="userStartVideo()">
+          <div class="big-play">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <p>Click to play</p>
+        </div>
       </div>
-      <h3 class="stats-section-title">Per-Video Breakdown</h3>
-      <table class="video-stats-table">
-        <thead><tr><th>#</th><th>Title</th><th>YT Views</th><th>Bot Views</th><th>Watch Time</th><th>Progress</th><th>Status</th></tr></thead>
-        <tbody id="stats-tbody"></tbody>
-      </table>
-      <button class="stats-reset-btn" onclick="resetStats()">Reset session stats</button>
+
+      <!-- Video info -->
+      <div class="video-info">
+        <div class="video-title" id="now-title"><span class="skeleton" style="width:70%;height:20px">&nbsp;</span></div>
+        <div class="video-meta">
+          <span class="yt-views" id="now-yt-views">— views on YouTube</span>
+          <span id="now-channel"></span>
+        </div>
+        <!-- Watch progress -->
+        <div class="watch-progress-wrap">
+          <div class="watch-progress-bar" id="watch-bar"></div>
+        </div>
+        <div class="watch-progress-label" id="watch-label">Click play to start</div>
+      </div>
+
+      <!-- Playlist -->
+      <div class="playlist-label">
+        <span>Up Next — All Videos</span>
+        <span id="playlist-count" style="color:var(--accent)">20 videos</span>
+      </div>
+      <div class="playlist" id="playlist"></div>
     </div>
+
+    <!-- RIGHT: Stats -->
+    <div class="stats-side">
+      <div class="stats-header">Session Stats</div>
+
+      <div class="stat-block views">
+        <div class="stat-block-label">Total Views Generated</div>
+        <div class="stat-block-value" id="stat-views">0</div>
+        <div class="stat-block-sub" id="stat-views-today">+0 today</div>
+      </div>
+      <div class="stat-block hours">
+        <div class="stat-block-label">Watch Hours Generated</div>
+        <div class="stat-block-value" id="stat-hours">0</div>
+        <div class="stat-block-sub" id="stat-hours-sub">minutes watched</div>
+      </div>
+      <div class="stat-block users">
+        <div class="stat-block-label">Unique Visitors</div>
+        <div class="stat-block-value" id="stat-users">0</div>
+        <div class="stat-block-sub">sessions tracked</div>
+      </div>
+      <div class="stat-block played">
+        <div class="stat-block-label">Videos Played</div>
+        <div class="stat-block-value" id="stat-played">0</div>
+        <div class="stat-block-sub">across all sessions</div>
+      </div>
+
+      <div class="breakdown-header">
+        <span>Per-Video Breakdown</span>
+        <span id="bk-active-label" style="color:var(--accent);font-size:.68rem"></span>
+      </div>
+      <div class="breakdown-list" id="breakdown-list"></div>
+
+      <button class="reset-btn" onclick="resetStats()">↺ Reset session stats</button>
+    </div>
+
   </div>
 
   <footer>
@@ -190,44 +258,33 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-
   </footer>
 </div>
 
-<div id="unmute-bar" onclick="unmuteAll()">🔊 Click to unmute</div>
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 // ══════════════════════════════════════════════════════
-// PASSWORD & SESSION CONFIG
-// Password: kavi2026
-// To change: generate new SHA-256 at https://emn178.github.io/online-tools/sha256.html
+// AUTH CONFIG
+// Password: kavi2026 (SHA-256 hashed)
 // ══════════════════════════════════════════════════════
-const ACCESS_HASH    = '1cff793fc5a58985fabd55c3a9bf3f1c2302c54a554939e20a28430716c312ce';
-const SESSION_MS     = 60 * 60 * 1000; // 1 hour in milliseconds
-const SESSION_KEY    = 'vv_session_exp';
+const ACCESS_HASH = '1cff793fc5a58985fabd55c3a9bf3f1c2302c54a554939e20a28430716c312ce';
+const SESSION_MS  = 60 * 60 * 1000;
+const SESSION_KEY = 'vv_session_exp';
 
-// ── Hash function (SHA-256 via Web Crypto) ────────────
 async function sha256(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
+function isSessionValid()  { return parseInt(localStorage.getItem(SESSION_KEY)||'0') > Date.now(); }
+function setSession()      { localStorage.setItem(SESSION_KEY, Date.now() + SESSION_MS); }
+function clearSession()    { localStorage.removeItem(SESSION_KEY); }
 
-// ── Session helpers ───────────────────────────────────
-function getSessionExpiry()  { return parseInt(localStorage.getItem(SESSION_KEY) || '0'); }
-function setSession()        { localStorage.setItem(SESSION_KEY, Date.now() + SESSION_MS); }
-function clearSession()      { localStorage.removeItem(SESSION_KEY); }
-function isSessionValid()    { return getSessionExpiry() > Date.now(); }
-
-// ── Login logic ───────────────────────────────────────
 async function doLogin() {
   const input = document.getElementById('pw-input');
   const btn   = document.getElementById('login-btn');
-  const err   = document.getElementById('login-error');
   const pw    = input.value.trim();
-
-  if (!pw) { showError('Please enter a password'); return; }
-
-  btn.disabled = true;
-  btn.textContent = 'Checking...';
-
+  if (!pw) { showLoginError('Please enter a password'); return; }
+  btn.disabled = true; btn.textContent = 'Checking...';
   const hash = await sha256(pw);
-
   if (hash === ACCESS_HASH) {
     setSession();
     document.getElementById('login-page').classList.add('hidden');
@@ -236,20 +293,13 @@ async function doLogin() {
     initApp();
   } else {
     input.classList.add('error');
-    setTimeout(() => input.classList.remove('error'), 400);
-    showError('Incorrect password. Try again.');
-    input.value = '';
-    input.focus();
+    setTimeout(()=>input.classList.remove('error'),400);
+    showLoginError('Incorrect password. Try again.');
+    input.value = ''; input.focus();
   }
-
-  btn.disabled = false;
-  btn.textContent = 'Enter →';
+  btn.disabled = false; btn.textContent = 'Enter →';
 }
-
-function showError(msg) {
-  document.getElementById('login-error').textContent = msg;
-}
-
+function showLoginError(m) { document.getElementById('login-error').textContent = m; }
 function showLogin() {
   clearSession();
   document.getElementById('expire-overlay').classList.remove('show');
@@ -259,36 +309,23 @@ function showLogin() {
   document.getElementById('login-error').textContent = '';
 }
 
-// ── Session timer (countdown in nav) ─────────────────
 let sessionInterval = null;
-
 function startSessionTimer() {
   if (sessionInterval) clearInterval(sessionInterval);
-
   sessionInterval = setInterval(() => {
-    const remaining = getSessionExpiry() - Date.now();
-
-    if (remaining <= 0) {
+    const rem = parseInt(localStorage.getItem(SESSION_KEY)||'0') - Date.now();
+    if (rem <= 0) {
       clearInterval(sessionInterval);
-      // Expire — show overlay
       document.getElementById('expire-overlay').classList.add('show');
       return;
     }
-
-    const mins = Math.floor(remaining / 60000);
-    const secs = Math.floor((remaining % 60000) / 1000);
-    const label = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-    const timerEl = document.getElementById('session-timer');
-    timerEl.textContent = label;
-
-    // Turn red when under 5 minutes
-    if (remaining < 5 * 60 * 1000) {
-      timerEl.classList.add('warning');
-    }
+    const m = Math.floor(rem/60000), s = Math.floor((rem%60000)/1000);
+    const el = document.getElementById('session-timer');
+    el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.classList.toggle('warning', rem < 5*60*1000);
   }, 1000);
 }
 
-// ── On page load: check existing session ─────────────
 window.addEventListener('DOMContentLoaded', () => {
   if (isSessionValid()) {
     document.getElementById('login-page').classList.add('hidden');
@@ -296,11 +333,10 @@ window.addEventListener('DOMContentLoaded', () => {
     startSessionTimer();
     initApp();
   }
-  // else: login page stays visible by default
 });
 
 // ══════════════════════════════════════════════════════
-// MAIN APP
+// APP CONFIG
 // ══════════════════════════════════════════════════════
 const VIDEO_IDS = [
   'r5W5eLxNHiM','Woqb1oIpA1s','yOS2SG5mD7g','rfutY193NGw','KmYrGfboOI0',
@@ -308,229 +344,387 @@ const VIDEO_IDS = [
   '83HdZ7Jyhpg','8r4ag4poQqc','86n7n5kCuME','woJkHT_-mPk','B4bpAOFslpo',
   '-2eFHKZJiww','toFlH20WvGg','CdzuwCsLJfM','HkkG5EPuAqc','ka3bri1_2MM'
 ];
-
 const YT_API_KEY = 'AIzaSyCZSFaetmI0vp0FFnqWjukv3-UHXz9UbL4';
-const meta = {};
-let isMuted = true;
-const watchTimers = {};
-const viewRecorded = {};
-let appInited = false;
 
+const meta       = {};   // id → {title, channel, thumb, ytViews, duration}
+let currentIdx   = 0;
+let ytPlayer     = null;
+let ytReady      = false;
+let watchInterval= null;
+let currentWatchSec = 0;
+let videoDuration   = 0;
+let hasStarted      = false;
+
+// ── Stats ─────────────────────────────────────────────
 const TODAY = new Date().toDateString();
 function loadStats(){try{return JSON.parse(localStorage.getItem('vv_stats')||'{}')}catch{return{}}}
 function saveStats(s){try{localStorage.setItem('vv_stats',JSON.stringify(s))}catch{}}
 let stats = loadStats();
-if(!stats.sessions)      stats.sessions=0;
-if(!stats.totalViews)    stats.totalViews=0;
-if(!stats.totalPlayed)   stats.totalPlayed=0;
-if(!stats.totalWatchSec) stats.totalWatchSec=0;
-if(!stats.today)         stats.today=TODAY;
-if(!stats.todayViews)    stats.todayViews=0;
-if(!stats.perVideo)      stats.perVideo={};
-if(stats.today!==TODAY){stats.todayViews=0;stats.today=TODAY}
+['sessions','totalViews','totalPlayed','totalWatchSec','todayViews']
+  .forEach(k=>{ if(!stats[k]) stats[k]=0; });
+if(!stats.today)   stats.today=TODAY;
+if(!stats.perVideo)stats.perVideo={};
+if(stats.today!==TODAY){stats.todayViews=0;stats.today=TODAY;}
+stats.sessions++;
+saveStats(stats);
 
-function fmtViews(n){if(!n&&n!==0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString()}
-function fmtTime(s){if(s<60)return s+'s';if(s<3600)return Math.round(s/60)+'m';return(s/3600).toFixed(1)+'h'}
-function timeAgo(){return['2h ago','5h ago','Yesterday','2 days ago','Today'][Math.floor(Math.random()*5)]}
-
-function buildCard(id, index) {
-  const div = document.createElement('div');
-  div.className = 'video-card';
-  div.id = `card-${id}`;
-  div.style.animationDelay = `${index * 0.05}s`;
-  div.innerHTML = `
-    <div class="video-wrap" id="wrap-${id}">
-      <iframe
-        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <div class="thumb-overlay" id="thumb-${id}" onclick="revealVideo('${id}')">
-        <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="thumbnail" loading="lazy">
-        <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-channel skeleton" id="ch-${id}" style="height:12px;width:40%;margin-bottom:6px">&nbsp;</div>
-      <div class="card-title"><span class="skeleton" id="title-${id}" style="display:block;height:36px;width:90%">&nbsp;</span></div>
-      <div class="card-footer">
-        <span id="views-${id}" class="skeleton" style="height:12px;width:70px;display:inline-block">&nbsp;</span>
-        <span>${timeAgo()}</span>
-      </div>
-    </div>`;
-  return div;
+function ensureVideoStats(id){
+  if(!stats.perVideo[id]) stats.perVideo[id]={views:0,watchSec:0};
 }
 
-function revealVideo(id) {
-  const wrap = document.getElementById(`wrap-${id}`);
-  if (wrap) wrap.classList.add('playing');
-  if (!isMuted) {
-    const iframe = wrap?.querySelector('iframe');
-    if (iframe) iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
-  }
-  showUnmuteBar();
+// ── Helpers ───────────────────────────────────────────
+function fmtViews(n){if(!n&&n!==0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString()}
+function fmtTime(s){if(!s)return'0s';if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m '+Math.floor(s%60)+'s';return Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m'}
+function fmtHours(s){const h=s/3600;return h>=1?h.toFixed(1):Math.round(s/60)}
+
+// ══════════════════════════════════════════════════════
+// YOUTUBE IFRAME API
+// onYouTubeIframeAPIReady is called automatically by YT script
+// ══════════════════════════════════════════════════════
+function onYouTubeIframeAPIReady() {
+  ytReady = true;
 }
 
-function setupScrollReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting && e.intersectionRatio >= 0.5) {
-        const id = e.target.id.replace('wrap-','');
-        revealVideo(id);
-        recordView(id);
-      }
-    });
-  }, { threshold: [0.5] });
-  VIDEO_IDS.forEach(id => {
-    const wrap = document.getElementById(`wrap-${id}`);
-    if (wrap) obs.observe(wrap);
+function createPlayer(videoId) {
+  if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
+
+  ytPlayer = new YT.Player('yt-player', {
+    videoId: videoId,
+    playerVars: {
+      autoplay:       0,       // 0 = wait for user click (= counted view)
+      rel:            0,
+      modestbranding: 1,
+      playsinline:    1,
+      origin:         window.location.origin,
+    },
+    events: {
+      onReady:       onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    }
   });
 }
 
-function startAllWatchTimers() {
-  VIDEO_IDS.forEach(id => {
-    if (watchTimers[id]) return;
-    watchTimers[id] = setInterval(() => {
-      stats.totalWatchSec = (stats.totalWatchSec||0) + 1;
-      if (!stats.perVideo[id]) stats.perVideo[id] = {views:0, watchSec:0};
-      stats.perVideo[id].watchSec = (stats.perVideo[id].watchSec||0) + 1;
+function onPlayerReady(event) {
+  videoDuration = ytPlayer.getDuration() || 0;
+}
+
+function onPlayerStateChange(event) {
+  const state = event.data;
+
+  if (state === YT.PlayerState.PLAYING) {
+    videoDuration = ytPlayer.getDuration() || videoDuration;
+    startWatchTracking();
+
+    // Record view once per video
+    const id = VIDEO_IDS[currentIdx];
+    ensureVideoStats(id);
+    if (!stats.perVideo[id].counted) {
+      stats.perVideo[id].counted = true;
+      stats.totalViews++;
+      stats.todayViews++;
+      stats.totalPlayed++;
       saveStats(stats);
-    }, 1000);
-  });
-  setInterval(updateStatsDisplay, 5000);
-}
-
-function recordView(id) {
-  if (viewRecorded[id]) return;
-  viewRecorded[id] = true;
-  stats.totalViews++;
-  stats.todayViews++;
-  stats.totalPlayed++;
-  if (!stats.perVideo[id]) stats.perVideo[id] = {views:0, watchSec:0};
-  stats.perVideo[id].views = (stats.perVideo[id].views||0) + 1;
-  saveStats(stats);
-  updateStatsDisplay();
-}
-
-function showUnmuteBar() {
-  if (isMuted) document.getElementById('unmute-bar').style.display = 'block';
-}
-function unmuteAll() {
-  isMuted = false;
-  document.getElementById('unmute-bar').style.display = 'none';
-  VIDEO_IDS.forEach(id => {
-    const wrap = document.getElementById(`wrap-${id}`);
-    if (wrap && wrap.classList.contains('playing')) {
-      const iframe = wrap.querySelector('iframe');
-      if (iframe) iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
+      updateStatsDisplay();
     }
-  });
+  }
+
+  if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.BUFFERING) {
+    stopWatchTracking();
+  }
+
+  // Auto-advance when video ends
+  if (state === YT.PlayerState.ENDED) {
+    stopWatchTracking();
+    setTimeout(() => {
+      if (currentIdx < VIDEO_IDS.length - 1) {
+        loadVideo(currentIdx + 1);
+      } else {
+        // Loop back to start
+        loadVideo(0);
+      }
+    }, 1500);
+  }
 }
 
-function updateCard(id) {
-  const m = meta[id]; if (!m) return;
-  const ch    = document.getElementById(`ch-${id}`);
-  const title = document.getElementById(`title-${id}`);
-  const views = document.getElementById(`views-${id}`);
-  const img   = document.querySelector(`#thumb-${id} img`);
-  if (ch)    { ch.classList.remove('skeleton'); ch.textContent = m.channel||''; }
-  if (title) { title.classList.remove('skeleton'); title.style=''; title.textContent = m.title||''; }
-  if (views) { views.classList.remove('skeleton'); views.style=''; views.textContent = m.ytViews!=null ? '▶ '+fmtViews(m.ytViews)+' views' : '▶ —'; }
-  if (img && m.thumb) img.src = m.thumb;
-}
+// ── Watch time tracking ───────────────────────────────
+function startWatchTracking() {
+  if (watchInterval) return;
+  watchInterval = setInterval(() => {
+    currentWatchSec++;
+    const id = VIDEO_IDS[currentIdx];
+    ensureVideoStats(id);
+    stats.perVideo[id].watchSec = (stats.perVideo[id].watchSec||0) + 1;
+    stats.totalWatchSec++;
+    saveStats(stats);
 
-async function fetchAllMeta() {
-  await Promise.allSettled(VIDEO_IDS.map(async id => {
-    try {
-      const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
-      const d = await r.json();
-      meta[id] = { title: d.title, channel: d.author_name, thumb: d.thumbnail_url, ytViews: null };
-      updateCard(id);
-    } catch { meta[id] = { title: id, channel: 'VideoVault', thumb: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, ytViews: null }; updateCard(id); }
-  }));
-  try {
-    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${VIDEO_IDS.join(',')}&key=${YT_API_KEY}`);
-    const d = await r.json();
-    if (!d.error) {
-      (d.items||[]).forEach(item => {
-        if (!meta[item.id]) meta[item.id] = {};
-        meta[item.id].ytViews = parseInt(item.statistics?.viewCount||0);
-        meta[item.id].title   = item.snippet?.title || meta[item.id].title;
-        meta[item.id].channel = item.snippet?.channelTitle || meta[item.id].channel;
-        const tn = item.snippet?.thumbnails;
-        if (tn) meta[item.id].thumb = (tn.high||tn.medium||tn.default)?.url || meta[item.id].thumb;
-        updateCard(item.id);
-      });
+    // Update progress bar
+    if (videoDuration > 0) {
+      const currentTime = ytPlayer ? ytPlayer.getCurrentTime() : 0;
+      const pct = Math.min(100, (currentTime / videoDuration) * 100);
+      document.getElementById('watch-bar').style.width = pct + '%';
+      document.getElementById('watch-label').textContent =
+        `${fmtTime(Math.round(currentTime))} / ${fmtTime(Math.round(videoDuration))} watched`;
     }
-  } catch(e) { console.warn('YT API failed:', e); }
-  renderStatsTable();
+
+    updateStatsDisplay();
+    updateBreakdown();
+  }, 1000);
 }
 
+function stopWatchTracking() {
+  clearInterval(watchInterval);
+  watchInterval = null;
+}
+
+// ── User clicks play (forces interaction = counted view) ─
+function userStartVideo() {
+  document.getElementById('start-overlay').classList.add('hidden');
+  hasStarted = true;
+  if (ytPlayer && ytReady) {
+    ytPlayer.playVideo();
+  }
+}
+
+// ── Shuffle array helper ──────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── Load a video by index ─────────────────────────────
+function loadVideo(idx) {
+  stopWatchTracking();
+  currentWatchSec = 0;
+  currentIdx      = idx;
+  hasStarted      = false;
+  videoDuration   = 0;
+
+  const id = VIDEO_IDS[idx];
+  const m  = meta[id] || {};
+
+  // Reset progress
+  document.getElementById('watch-bar').style.width = '0%';
+  document.getElementById('watch-label').textContent = 'Click play to start';
+
+  // Show start overlay again
+  document.getElementById('start-overlay').classList.remove('hidden');
+
+  // Update info
+  document.getElementById('now-title').textContent    = m.title   || 'Loading...';
+  document.getElementById('now-channel').textContent  = m.channel || '';
+  document.getElementById('now-yt-views').textContent = m.ytViews != null
+    ? fmtViews(m.ytViews) + ' views on YouTube'
+    : '— views on YouTube';
+
+  // Reset per-video counted flag for new play
+  ensureVideoStats(id);
+  stats.perVideo[id].counted = false;
+
+  // Create new YT player for this video
+  if (ytReady) {
+    createPlayer(id);
+  } else {
+    // YT API not ready yet — set iframe src directly as fallback
+    document.getElementById('yt-player').src =
+      `https://www.youtube.com/embed/${id}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
+  }
+
+  // Update playlist active state
+  document.querySelectorAll('.playlist-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  // Scroll active item into view in breakdown too
+  const bkEl = document.getElementById('bk-' + id);
+  if (bkEl) bkEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  // Scroll active item into view
+  const activeEl = document.getElementById(`pl-${id}`);
+  if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  // Update breakdown active
+  updateBreakdown();
+}
+
+// ── Build playlist ────────────────────────────────────
+function buildPlaylist() {
+  const list = document.getElementById('playlist');
+  list.innerHTML = VIDEO_IDS.map((id, i) => {
+    const m = meta[id] || {};
+    return `
+      <div class="playlist-item${i===0?' active':''}" id="pl-${id}" onclick="loadVideo(${i})">
+        <div class="playlist-num">${i+1}</div>
+        <img class="playlist-thumb" src="https://img.youtube.com/vi/${id}/mqdefault.jpg" alt="">
+        <div class="playlist-info">
+          <div class="playlist-title" id="plt-${id}">${m.title||'<span class="skeleton" style="width:90%;height:11px">&nbsp;</span>'}</div>
+          <div class="playlist-views" id="plv-${id}">${m.ytViews!=null?fmtViews(m.ytViews)+' views':'—'}</div>
+        </div>
+        <div class="playing-dot"></div>
+      </div>`;
+  }).join('');
+}
+
+// ── Build breakdown list ──────────────────────────────
+function buildBreakdown() {
+  const list = document.getElementById('breakdown-list');
+  list.innerHTML = VIDEO_IDS.map((id, i) => {
+    const m  = meta[id]  || {};
+    const pv = stats.perVideo?.[id] || {};
+    return `
+      <div class="bk-item${i===currentIdx?' active-video':''}" id="bk-${id}">
+        <div class="bk-title" id="bkt-${id}">${m.title||id}</div>
+        <div class="bk-row">
+          <span class="bk-tag yellow" id="bkv-${id}">▶ ${pv.views||0} bot views</span>
+          <span class="bk-tag blue"   id="bkw-${id}">⏱ ${fmtTime(pv.watchSec||0)}</span>
+          <span class="bk-tag green"  id="bky-${id}">YT: ${m.ytViews!=null?fmtViews(m.ytViews):'—'}</span>
+        </div>
+        <div class="bk-bar-wrap"><div class="bk-bar-fill" id="bkb-${id}" style="width:0%"></div></div>
+      </div>`;
+  }).join('');
+}
+
+function updateBreakdown() {
+  const maxW = Math.max(1, ...VIDEO_IDS.map(id=>stats.perVideo?.[id]?.watchSec||0));
+  VIDEO_IDS.forEach((id, i) => {
+    const pv  = stats.perVideo?.[id] || {};
+    const pct = Math.round(((pv.watchSec||0)/maxW)*100);
+    const vEl = document.getElementById(`bkv-${id}`);
+    const wEl = document.getElementById(`bkw-${id}`);
+    const bEl = document.getElementById(`bkb-${id}`);
+    const cEl = document.getElementById(`bk-${id}`);
+    if (vEl) vEl.textContent = `▶ ${pv.views||0} bot views`;
+    if (wEl) wEl.textContent = `⏱ ${fmtTime(pv.watchSec||0)}`;
+    if (bEl) bEl.style.width = pct + '%';
+    if (cEl) cEl.classList.toggle('active-video', i === currentIdx);
+  });
+  document.getElementById('bk-active-label').textContent =
+    `Now: #${currentIdx+1}`;
+}
+
+// ── Stats display ─────────────────────────────────────
 function updateStatsDisplay() {
   const sec = stats.totalWatchSec||0;
   const hrs = sec/3600;
   document.getElementById('stat-views').textContent     = (stats.totalViews||0).toLocaleString();
-  document.getElementById('stat-hours').textContent     = hrs>=1 ? hrs.toFixed(1) : Math.round(sec/60);
-  document.getElementById('stat-hours-sub').textContent = hrs>=1 ? 'watch hours' : 'minutes watched';
+  document.getElementById('stat-hours').textContent     = fmtHours(sec);
+  document.getElementById('stat-hours-sub').textContent = hrs>=1?'watch hours':'minutes watched';
   document.getElementById('stat-users').textContent     = (stats.sessions||0).toLocaleString();
   document.getElementById('stat-played').textContent    = (stats.totalPlayed||0).toLocaleString();
   document.getElementById('stat-views-today').textContent = `+${stats.todayViews||0} today`;
 }
 
-function renderStatsTable() {
-  const tbody = document.getElementById('stats-tbody');
-  if (!tbody) return;
-  const maxV = Math.max(1,...VIDEO_IDS.map(id=>stats.perVideo?.[id]?.views||0));
-  tbody.innerHTML = VIDEO_IDS.map((id,i) => {
-    const m  = meta[id]||{};
-    const pv = stats.perVideo?.[id]||{};
-    const bv = pv.views||0;
-    const ws = pv.watchSec||0;
-    const pct= Math.round((bv/maxV)*100);
-    return `<tr>
-      <td style="color:var(--muted)">${i+1}</td>
-      <td class="td-title">${m.title||id}</td>
-      <td>${m.ytViews!=null?fmtViews(m.ytViews):'<span style="color:var(--muted)">—</span>'}</td>
-      <td><strong>${bv}</strong></td>
-      <td>${fmtTime(ws)}</td>
-      <td><div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div></td>
-      <td>${bv>0?'<span class="badge badge-green">Active</span>':'<span class="badge badge-blue">Queued</span>'}</td>
-    </tr>`;
-  }).join('');
-}
-
 function resetStats() {
   if(!confirm('Reset all session stats?'))return;
   stats={sessions:1,totalViews:0,totalPlayed:0,totalWatchSec:0,today:TODAY,todayViews:0,perVideo:{}};
-  saveStats(stats); updateStatsDisplay(); renderStatsTable();
+  saveStats(stats);
+  updateStatsDisplay();
+  updateBreakdown();
 }
 
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(`tab-${name}`).classList.add('active');
-  btn.classList.add('active');
-  if(name==='stats'){updateStatsDisplay();renderStatsTable();}
+// ── Fetch metadata ────────────────────────────────────
+// Google API call breakdown:
+// - 1 API call fetches ALL 20 videos at once (not 1 per video)
+// - Each call costs 1 unit (videos.list = 1 unit per call)
+// - Free quota = 10,000 units/day
+// - We make 1 call on page load = 1 unit used
+// - 10,000 page loads per day before hitting limit
+async function fetchAllMeta() {
+  // Step 1: oEmbed for titles (free, no quota)
+  await Promise.allSettled(VIDEO_IDS.map(async id => {
+    try {
+      const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+      const d = await r.json();
+      if (!meta[id]) meta[id] = {};
+      meta[id].title   = d.title;
+      meta[id].channel = d.author_name;
+      meta[id].thumb   = d.thumbnail_url;
+      refreshCardMeta(id);
+    } catch {}
+  }));
+
+  // Step 2: ONE batch API call for all 20 videos = 1 unit used
+  try {
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet,contentDetails&id=${VIDEO_IDS.join(',')}&key=${YT_API_KEY}`;
+    const r   = await fetch(url);
+    const d   = await r.json();
+    if (d.error) { console.warn('YT API:', d.error.message); return; }
+    (d.items||[]).forEach(item => {
+      if (!meta[item.id]) meta[item.id] = {};
+      meta[item.id].ytViews = parseInt(item.statistics?.viewCount||0);
+      meta[item.id].title   = item.snippet?.title || meta[item.id].title;
+      meta[item.id].channel = item.snippet?.channelTitle || meta[item.id].channel;
+      const tn = item.snippet?.thumbnails;
+      if (tn) meta[item.id].thumb = (tn.maxres||tn.high||tn.medium||tn.default)?.url;
+      // Parse duration
+      const dur = item.contentDetails?.duration;
+      if (dur) {
+        const m = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+        if (m) meta[item.id].duration = (parseInt(m[1]||0)*3600)+(parseInt(m[2]||0)*60)+parseInt(m[3]||0);
+      }
+      refreshCardMeta(item.id);
+    });
+  } catch(e) { console.warn('YT API failed:', e); }
+
+  // Refresh current video info
+  const curId = VIDEO_IDS[currentIdx];
+  const m = meta[curId]||{};
+  document.getElementById('now-title').textContent    = m.title   || curId;
+  document.getElementById('now-channel').textContent  = m.channel || '';
+  document.getElementById('now-yt-views').textContent = m.ytViews!=null ? fmtViews(m.ytViews)+' views on YouTube' : '— views on YouTube';
+
+  buildBreakdown();
 }
 
-function setupFadeIn() {
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:0.05});
-  document.querySelectorAll('.video-card').forEach(c=>obs.observe(c));
+function refreshCardMeta(id) {
+  const titleEl = document.getElementById(`plt-${id}`);
+  const viewsEl = document.getElementById(`plv-${id}`);
+  const bktEl   = document.getElementById(`bkt-${id}`);
+  const bkyEl   = document.getElementById(`bky-${id}`);
+  const m = meta[id]||{};
+  if (titleEl) titleEl.textContent = m.title||id;
+  if (viewsEl) viewsEl.textContent = m.ytViews!=null?fmtViews(m.ytViews)+' views':'—';
+  if (bktEl)   bktEl.textContent   = m.title||id;
+  if (bkyEl)   bkyEl.textContent   = `YT: ${m.ytViews!=null?fmtViews(m.ytViews):'—'}`;
+  // Update playlist thumb with better quality
+  const img = document.querySelector(`#pl-${id} .playlist-thumb`);
+  if (img && m.thumb) img.src = m.thumb;
 }
 
+// ── INIT ─────────────────────────────────────────────
+let appInited = false;
 function initApp() {
   if (appInited) return;
   appInited = true;
-  stats.sessions++;
-  saveStats(stats);
-  const grid = document.getElementById('video-grid');
-  VIDEO_IDS.forEach((id,i) => grid.appendChild(buildCard(id,i)));
-  setupFadeIn();
-  setupScrollReveal();
-  startAllWatchTimers();
+
+  buildPlaylist();
+  buildBreakdown();
   updateStatsDisplay();
+
+  // Shuffle VIDEO_IDS for this session — random order every visit
+  const _shuffled = [...VIDEO_IDS].sort(() => Math.random() - 0.5);
+  VIDEO_IDS.length = 0;
+  _shuffled.forEach(id => VIDEO_IDS.push(id));
+  buildPlaylist();
+  buildBreakdown();
+
+  // Start on first video of shuffled order
+  const firstId = VIDEO_IDS[0];
+  document.getElementById('yt-player').src =
+    `https://www.youtube.com/embed/${firstId}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
+
+  // Init YT player once API ready
+  const tryInit = setInterval(() => {
+    if (typeof YT !== 'undefined' && YT.Player) {
+      clearInterval(tryInit);
+      createPlayer(firstId);
+      const m = meta[firstId]||{};
+      document.getElementById('now-title').textContent = m.title||'Loading...';
+    }
+  }, 200);
+
   fetchAllMeta();
 }
 </script>
