@@ -211,7 +211,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,4vw,3rem);ma
       <!-- Playlist -->
       <div class="playlist-label">
         <span>Up Next — All Videos</span>
-        <span id="playlist-count" style="color:var(--accent)" id="playlist-count">0 videos</span>
+        <span id="playlist-count" style="color:var(--accent)">0 videos</span>
       </div>
       <div class="playlist" id="playlist"></div>
     </div>
@@ -702,20 +702,16 @@ function initApp() {
   if (appInited) return;
   appInited = true;
 
-  buildPlaylist();
-  buildBreakdown();
-  // Update counts dynamically
-  const heroCount = document.getElementById('hero-count');
-  if (heroCount) heroCount.textContent = VIDEO_IDS.length;
-  updateStatsDisplay();
-
   // Shuffle VIDEO_IDS for this session — random order every visit
   const _shuffled = [...VIDEO_IDS].sort(() => Math.random() - 0.5);
   VIDEO_IDS.length = 0;
   _shuffled.forEach(id => VIDEO_IDS.push(id));
+
   buildPlaylist();
   buildBreakdown();
-  // Update counts dynamically
+  updateStatsDisplay();
+
+  // Update counts dynamically from actual array length
   const heroCount = document.getElementById('hero-count');
   if (heroCount) heroCount.textContent = VIDEO_IDS.length;
 
