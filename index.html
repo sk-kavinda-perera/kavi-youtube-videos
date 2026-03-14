@@ -18,9 +18,7 @@
     --muted: #6b6966;
     --card: #1c1d20;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -28,8 +26,6 @@
     font-weight: 300;
     min-height: 100vh;
   }
-
-  /* Grain overlay */
   body::before {
     content: '';
     position: fixed;
@@ -39,274 +35,117 @@
     z-index: 100;
     opacity: 0.4;
   }
-
-  /* ── NAV ── */
   nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: sticky; top: 0; z-index: 50;
     background: rgba(14,15,17,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 0 clamp(1rem, 4vw, 3rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 0 clamp(1rem,4vw,3rem);
+    display: flex; align-items: center; justify-content: space-between;
     height: 60px;
   }
-
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    text-decoration: none;
-  }
-
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-
-  nav ul {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  nav a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
   nav a:hover { color: var(--text); }
 
-  /* ── HERO ── */
   .hero {
-    padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem);
-    max-width: 1400px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 2rem;
+    padding: clamp(3rem,8vw,6rem) clamp(1rem,4vw,3rem) clamp(2rem,5vw,4rem);
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem;
     border-bottom: 1px solid var(--border);
   }
+  .hero-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem,5vw,4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; max-width: 600px; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-meta { text-align: right; color: var(--muted); font-size: 0.82rem; line-height: 1.8; }
+  .hero-meta strong { display: block; font-size: 2rem; font-family: 'Playfair Display', serif; color: var(--text); font-weight: 400; }
 
-  .hero-tag {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+  .grid-wrapper { max-width: 1400px; margin: 0 auto; padding: 2.5rem clamp(1rem,4vw,3rem); }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: -0.02em; }
+  .section-count { font-size: 0.8rem; color: var(--muted); }
 
-  .hero-tag::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-  }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
 
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    max-width: 600px;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .hero-meta {
-    text-align: right;
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.8;
-  }
-
-  .hero-meta strong {
-    display: block;
-    font-size: 2rem;
-    font-family: 'Playfair Display', serif;
-    color: var(--text);
-    font-weight: 400;
-  }
-
-  /* ── CATEGORIES ── */
-  .categories {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.5rem clamp(1rem, 4vw, 3rem);
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .categories::-webkit-scrollbar { display: none; }
-
-  .cat-btn {
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-
-  .cat-btn.active, .cat-btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #000;
-  }
-
-  /* ── GRID ── */
-  .grid-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2.5rem clamp(1rem, 4vw, 3rem);
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-  }
-
-  .section-count {
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
-
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-
-  /* ── VIDEO CARD ── */
+  /* ── CARD ── */
   .video-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.25s, border-color 0.25s;
-    animation: fadeUp 0.5s ease both;
+    opacity: 0;
+    transform: translateY(16px);
   }
+  .video-card.visible { animation: fadeUp 0.5s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .video-card:hover { transform: translateY(-3px); border-color: #3a3b3e; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .video-card:hover {
-    transform: translateY(-3px);
-    border-color: #3a3b3e;
-  }
-
-  .video-embed {
+  /* Thumbnail shown before iframe loads */
+  .video-wrap {
     position: relative;
     padding-bottom: 56.25%;
     background: #000;
+    cursor: pointer;
   }
-
-  .video-embed iframe {
+  .video-wrap .thumb {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s;
+  }
+  .video-wrap .play-btn {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    transition: background 0.2s;
+  }
+  .video-wrap:hover .play-btn { background: rgba(232,197,71,0.9); }
+  .play-btn svg { width: 24px; height: 24px; fill: white; margin-left: 3px; }
+
+  .video-wrap iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
     border: none;
+    display: none;
   }
+  .video-wrap.playing .thumb,
+  .video-wrap.playing .play-btn { display: none; }
+  .video-wrap.playing iframe { display: block; }
 
-  .card-body {
-    padding: 1rem 1.1rem 1.2rem;
-  }
+  /* Loading skeleton */
+  .skeleton { background: linear-gradient(90deg, var(--border) 25%, #333 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .sk-title { height: 16px; width: 80%; margin-bottom: 8px; }
+  .sk-desc  { height: 12px; width: 60%; }
 
-  .card-category {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    margin-bottom: 0.4rem;
-  }
+  .card-body { padding: 1rem 1.1rem 1.2rem; }
+  .card-channel { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.4rem; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1rem; line-height: 1.4; letter-spacing: -0.01em; margin-bottom: 0.5rem; color: var(--text); }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--muted); }
 
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-    margin-bottom: 0.5rem;
-    color: var(--text);
+  /* Unmute banner */
+  #unmute-bar {
+    position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #000;
+    padding: 0.6rem 1.5rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 500; cursor: pointer;
+    z-index: 200; display: none;
+    box-shadow: 0 4px 24px rgba(232,197,71,0.4);
+    animation: popIn 0.3s ease;
   }
+  @keyframes popIn { from { transform: translateX(-50%) scale(0.9); opacity:0; } to { transform: translateX(-50%) scale(1); opacity:1; } }
 
-  .card-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  .card-views {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem clamp(1rem, 4vw, 3rem);
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 600px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-meta { text-align: left; }
-    nav ul { display: none; }
-  }
+  footer { border-top: 1px solid var(--border); padding: 2rem clamp(1rem,4vw,3rem); max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.8rem; }
+  @media (max-width: 600px) { .hero { grid-template-columns: 1fr; } .hero-meta { text-align: left; } nav ul { display: none; } }
 </style>
 </head>
 <body>
@@ -316,7 +155,6 @@
   <ul>
     <li><a href="#">Collections</a></li>
     <li><a href="#">Trending</a></li>
-    <li><a href="#">Topics</a></li>
     <li><a href="#">About</a></li>
   </ul>
 </nav>
@@ -327,105 +165,231 @@
     <h1>The internet's best<br><em>videos</em>, curated.</h1>
   </div>
   <div class="hero-meta">
-    <strong id="video-count">0</strong>
+    <strong id="video-count">20</strong>
     videos today
   </div>
-</div>
-
-<div class="categories">
-  <button class="cat-btn active" onclick="filterCat('all')">All</button>
-  <button class="cat-btn" onclick="filterCat('tech')">Technology</button>
-  <button class="cat-btn" onclick="filterCat('science')">Science</button>
-  <button class="cat-btn" onclick="filterCat('travel')">Travel</button>
-  <button class="cat-btn" onclick="filterCat('music')">Music</button>
-  <button class="cat-btn" onclick="filterCat('education')">Education</button>
-  <button class="cat-btn" onclick="filterCat('entertainment')">Entertainment</button>
 </div>
 
 <div class="grid-wrapper">
   <div class="section-header">
     <h2 class="section-title">Today's Collection</h2>
-    <span class="section-count" id="showing-count"></span>
+    <span class="section-count" id="showing-count">20 videos</span>
   </div>
   <div class="video-grid" id="video-grid"></div>
 </div>
 
 <footer>
   <span>© 2025 VideoVault. Curated with care.</span>
-  <span>Updated daily · <a href="#" style="color:var(--muted)">Submit a video</a></span>
+  <span>Updated daily</span>
 </footer>
 
+<div id="unmute-bar" onclick="unmuteAll()">🔊 Click to unmute videos</div>
+
 <script>
-// ── VIDEO LIST — edit these to add/remove videos ──────────────────────────────
-// Format: { id: 'YouTube_video_ID', title: '...', desc: '...', cat: 'tech|science|travel|music|education|entertainment' }
-const VIDEOS = [
-  // REPLACE THESE WITH YOUR YOUTUBE VIDEO IDs
-  { id: 'QYenHnL2AcA', title: 'All About Valorant gameplay:|PART 00 |HD 👀👀', desc: 'A fascinating look at productivity systems used by the world\'s top performers.', cat: 'gaming' },
-  { id: '2bY5Bajuh6I', title: 'All About Valorant gameplay:|PART 01 |HD 👀👀', desc: 'The very first video uploaded to YouTube, marking the start of a new era.', cat: 'gaming' },
-  { id: 'ic6ChEMtS-I', title: 'All About Valorant gameplay:|PART 02 |HD 👀👀', desc: 'An open-source animated short film from the Blender Institute.', cat: 'gaming' },
-  { id: 'DRjj0xidzfM', title: 'All About Valorant gameplay:|PART 1.3 |HD 👀👀', desc: 'One of the most iconic viral moments in early internet history.', cat: 'gaming' },
-  { id: '83HdZ7Jyhpg', title: 'All About Valorant gameplay:|PART 1.4 |HD 👀👀', desc: 'The classic animated GIF set to music that took the internet by storm.', cat: 'gaming' },
+// ── VIDEO IDs — your channel ──────────────────────────────────────────────────
+const VIDEO_IDS = [
+  'r5W5eLxNHiM','Woqb1oIpA1s','yOS2SG5mD7g','rfutY193NGw','KmYrGfboOI0',
+  'LFGix7lmiBs','stswV7U5oZc','2bY5Bajuh6I','ic6ChEMtS-I','DRjj0xidzfM',
+  '83HdZ7Jyhpg','8r4ag4poQqc','86n7n5kCuME','woJkHT_-mPk','B4bpAOFslpo',
+  '-2eFHKZJiww','toFlH20WvGg','CdzuwCsLJfM','HkkG5EPuAqc','ka3bri1_2MM'
 ];
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
-let currentFilter = 'all';
+// Cache for fetched metadata
+const metaCache = {};
 
-function getFiltered() {
-  return currentFilter === 'all' ? VIDEOS : VIDEOS.filter(v => v.cat === currentFilter);
+// ── Fetch real title + thumbnail from YouTube oEmbed API ──────────────────────
+async function fetchMeta(videoId) {
+  if (metaCache[videoId]) return metaCache[videoId];
+  try {
+    const url  = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    const meta = {
+      title:   data.title        || `Video ${videoId}`,
+      channel: data.author_name  || 'VideoVault',
+      thumb:   data.thumbnail_url || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+    };
+    metaCache[videoId] = meta;
+    return meta;
+  } catch {
+    // Fallback to YouTube thumbnail directly if oEmbed fails
+    return {
+      title:   `Video`,
+      channel: 'VideoVault',
+      thumb:   `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+    };
+  }
 }
 
-function filterCat(cat) {
-  currentFilter = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderGrid();
-}
-
-function randomViews() {
-  return (Math.floor(Math.random() * 900) + 100).toLocaleString() + ' views';
+// ── Random view count (realistic range) ──────────────────────────────────────
+function fakeViews() {
+  const n = Math.floor(Math.random() * 98000) + 1200;
+  return n >= 1000 ? (n / 1000).toFixed(1) + 'K views' : n + ' views';
 }
 
 function timeAgo() {
-  const opts = ['2 hours ago', '4 hours ago', '6 hours ago', 'Today', 'Yesterday'];
-  return opts[Math.floor(Math.random() * opts.length)];
+  return ['2 hours ago','5 hours ago','Yesterday','2 days ago','Today'][Math.floor(Math.random()*5)];
 }
 
-function catLabel(cat) {
-  return cat.charAt(0).toUpperCase() + cat.slice(1);
+// ── Build skeleton card (shown while metadata loads) ─────────────────────────
+function buildSkeletonCard(videoId, index) {
+  const div = document.createElement('div');
+  div.className = 'video-card';
+  div.id = `card-${videoId}`;
+  div.style.animationDelay = `${index * 0.06}s`;
+  div.innerHTML = `
+    <div class="video-wrap" id="wrap-${videoId}" onclick="playVideo('${videoId}')">
+      <img class="thumb" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="video thumbnail" loading="lazy">
+      <div class="play-btn">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <iframe id="iframe-${videoId}"
+        src=""
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="card-body">
+      <div class="card-channel skeleton sk-desc" id="ch-${videoId}">&nbsp;</div>
+      <h3 class="card-title">
+        <span class="skeleton sk-title" id="title-${videoId}" style="display:block">&nbsp;</span>
+      </h3>
+      <div class="card-footer">
+        <span id="views-${videoId}" class="skeleton sk-desc">&nbsp;</span>
+        <span>${timeAgo()}</span>
+      </div>
+    </div>`;
+  return div;
 }
 
-function renderGrid() {
-  const filtered = getFiltered();
+// ── Update card with real metadata ───────────────────────────────────────────
+function updateCard(videoId, meta) {
+  const chEl    = document.getElementById(`ch-${videoId}`);
+  const titleEl = document.getElementById(`title-${videoId}`);
+  const viewsEl = document.getElementById(`views-${videoId}`);
+
+  if (chEl) {
+    chEl.classList.remove('skeleton','sk-desc');
+    chEl.textContent = meta.channel;
+  }
+  if (titleEl) {
+    titleEl.classList.remove('skeleton','sk-title');
+    titleEl.style.display = '';
+    titleEl.textContent = meta.title;
+  }
+  if (viewsEl) {
+    viewsEl.classList.remove('skeleton','sk-desc');
+    viewsEl.textContent = '▶ ' + fakeViews();
+  }
+
+  // Update thumbnail with high-res version
+  const thumb = document.querySelector(`#wrap-${videoId} .thumb`);
+  if (thumb && meta.thumb) thumb.src = meta.thumb;
+}
+
+// ── Play video (replace thumbnail with iframe + autoplay) ─────────────────────
+let currentlyPlaying = null;
+
+function playVideo(videoId) {
+  const wrap   = document.getElementById(`wrap-${videoId}`);
+  const iframe = document.getElementById(`iframe-${videoId}`);
+  if (!wrap || !iframe) return;
+
+  // Pause previous video
+  if (currentlyPlaying && currentlyPlaying !== videoId) {
+    const prevWrap   = document.getElementById(`wrap-${currentlyPlaying}`);
+    const prevIframe = document.getElementById(`iframe-${currentlyPlaying}`);
+    if (prevWrap) prevWrap.classList.remove('playing');
+    if (prevIframe) prevIframe.src = '';
+  }
+
+  currentlyPlaying = videoId;
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&rel=0&modestbranding=1&enablejsapi=1`;
+  wrap.classList.add('playing');
+  showUnmuteBar();
+}
+
+// ── Autoplay on scroll into view ──────────────────────────────────────────────
+let autoplayEnabled = true;
+
+function setupAutoplay() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && autoplayEnabled) {
+        const wrap    = entry.target;
+        const videoId = wrap.id.replace('wrap-','');
+        // Only autoplay if nothing is playing, or scroll to new one
+        if (!wrap.classList.contains('playing')) {
+          playVideo(videoId);
+        }
+      }
+    });
+  }, { threshold: 0.65 }); // 65% visible before autoplay triggers
+
+  VIDEO_IDS.forEach(id => {
+    const wrap = document.getElementById(`wrap-${id}`);
+    if (wrap) observer.observe(wrap);
+  });
+}
+
+// ── Fade-in cards as they scroll into view ────────────────────────────────────
+function setupFadeIn() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.video-card').forEach(c => obs.observe(c));
+}
+
+// ── Mute / unmute ─────────────────────────────────────────────────────────────
+let isMuted = true;
+
+function showUnmuteBar() {
+  if (isMuted) {
+    document.getElementById('unmute-bar').style.display = 'block';
+  }
+}
+
+function unmuteAll() {
+  isMuted = false;
+  document.getElementById('unmute-bar').style.display = 'none';
+  // Reload current video unmuted
+  if (currentlyPlaying) {
+    const iframe = document.getElementById(`iframe-${currentlyPlaying}`);
+    if (iframe) {
+      iframe.src = `https://www.youtube.com/embed/${currentlyPlaying}?autoplay=1&mute=0&rel=0&modestbranding=1`;
+    }
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
   const grid = document.getElementById('video-grid');
 
-  document.getElementById('showing-count').textContent = `${filtered.length} video${filtered.length !== 1 ? 's' : ''}`;
-  document.getElementById('video-count').textContent = VIDEOS.length;
+  // 1. Render all skeleton cards immediately
+  VIDEO_IDS.forEach((id, i) => {
+    grid.appendChild(buildSkeletonCard(id, i));
+  });
 
-  grid.innerHTML = filtered.map((v, i) => `
-    <div class="video-card" style="animation-delay:${i * 0.06}s" data-cat="${v.cat}">
-      <div class="video-embed">
-        <iframe
-          src="https://www.youtube.com/embed/${v.id}?autoplay=0&rel=0&modestbranding=1"
-          title="${v.title}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="card-body">
-        <div class="card-category">${catLabel(v.cat)}</div>
-        <h3 class="card-title">${v.title}</h3>
-        <p class="card-desc">${v.desc}</p>
-        <div class="card-footer">
-          <span class="card-views">▶ ${randomViews()}</span>
-          <span>${timeAgo()}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  // 2. Setup fade-in and autoplay observers
+  setupFadeIn();
+  setupAutoplay();
+
+  // 3. Fetch real metadata for all videos in parallel
+  const fetches = VIDEO_IDS.map(async (id) => {
+    const meta = await fetchMeta(id);
+    updateCard(id, meta);
+  });
+
+  await Promise.allSettled(fetches);
 }
 
-renderGrid();
+init();
 </script>
 </body>
 </html>
