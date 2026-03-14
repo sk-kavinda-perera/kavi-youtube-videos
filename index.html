@@ -146,6 +146,32 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-
 <div id="unmute-bar" onclick="unmuteAll()">🔊 Click to unmute</div>
 
 <script>
+// ── PASSWORD PROTECTION (SHA-256 hashed — cannot be reversed) ────────────────
+// To generate a new hash: https://emn178.github.io/online-tools/sha256.html
+// Current password hash (SHA-256) — original password is never stored here:
+const ACCESS_HASH = '2654f57d9a5eb29013f82e316d22b1e4708e316a07ff76188cd11199a33d6a87';
+
+async function checkAccess() {
+  const params   = new URLSearchParams(window.location.search);
+  const provided = params.get('access');
+  if (!provided) { block(); return; }
+
+  // Hash what the user provided and compare — never store plain password
+  const encoded = new TextEncoder().encode(provided);
+  const hashBuf = await crypto.subtle.digest('SHA-256', encoded);
+  const hashHex = Array.from(new Uint8Array(hashBuf))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+
+  if (hashHex !== ACCESS_HASH) { block(); return; }
+  // Access granted — init() runs below
+}
+
+function block() {
+  document.documentElement.innerHTML = '';
+  document.title = '404';
+  throw new Error('Access denied');
+}
+
 const VIDEO_IDS = [
   'r5W5eLxNHiM','Woqb1oIpA1s','yOS2SG5mD7g','rfutY193NGw','KmYrGfboOI0',
   'LFGix7lmiBs','stswV7U5oZc','2bY5Bajuh6I','ic6ChEMtS-I','DRjj0xidzfM',
@@ -401,7 +427,7 @@ function init() {
   fetchAllMeta();        // loads real titles + view counts
 }
 
-init();
+checkAccess().then(() => init()).catch(() => {});
 </script>
 </body>
 </html>
