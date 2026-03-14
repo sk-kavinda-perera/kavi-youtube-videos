@@ -12,6 +12,30 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:.4}
+
+/* ── LOGIN PAGE ── */
+#login-page{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
+#login-page.hidden{display:none}
+.login-box{width:100%;max-width:380px;padding:2.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.login-logo{font-family:'Playfair Display',serif;font-size:1.6rem;letter-spacing:-.02em;color:var(--text);margin-bottom:.3rem}
+.login-logo span{color:var(--accent)}
+.login-sub{font-size:.8rem;color:var(--muted);margin-bottom:2rem}
+.login-label{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.login-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;margin-bottom:1rem}
+.login-input:focus{border-color:var(--accent)}
+.login-input.error{border-color:#f87171;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.login-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:7px;padding:.8rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;transition:opacity .2s}
+.login-btn:hover{opacity:.88}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
+.login-error{font-size:.8rem;color:#f87171;margin-top:.75rem;min-height:1.2em;text-align:center}
+.login-expire{font-size:.72rem;color:var(--muted);margin-top:1.2rem;text-align:center}
+.login-expire span{color:var(--accent2)}
+
+/* ── MAIN APP (hidden until logged in) ── */
+#app{display:none}
+#app.visible{display:block}
+
 nav{position:sticky;top:0;z-index:50;background:rgba(14,15,17,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,4vw,3rem);display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
 .logo span{color:var(--accent)}
@@ -19,6 +43,8 @@ nav ul{display:flex;gap:0;list-style:none}
 .tab-btn{padding:.4rem 1.1rem;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:color .2s;border-bottom:2px solid transparent}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.session-timer{font-size:.75rem;color:var(--muted);padding:.3rem .7rem;border:1px solid var(--border);border-radius:100px}
+.session-timer.warning{color:#f87171;border-color:#f87171}
 .hero{padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,3rem) clamp(2rem,5vw,3rem);max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;border-bottom:1px solid var(--border)}
 .hero-tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
 .hero-tag::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
@@ -33,33 +59,24 @@ h1 em{font-style:italic;color:var(--accent)}
 .section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;letter-spacing:-.02em}
 .section-count{font-size:.8rem;color:var(--muted)}
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
-
-/* CARD */
 .video-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:transform .25s,border-color .25s;opacity:0;transform:translateY(16px)}
 .video-card.visible{animation:fadeUp .5s ease forwards}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 .video-card:hover{transform:translateY(-3px);border-color:#3a3b3e}
-
-/* VIDEO WRAP — iframe always present, thumb overlaid on top */
 .video-wrap{position:relative;padding-bottom:56.25%;background:#000}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-/* Thumb overlay — hidden once playing class added */
 .thumb-overlay{position:absolute;inset:0;z-index:2;cursor:pointer;transition:opacity .3s}
 .thumb-overlay img{width:100%;height:100%;object-fit:cover;display:block}
 .thumb-overlay .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
 .thumb-overlay:hover .play-btn{background:rgba(232,197,71,.9);transform:translate(-50%,-50%) scale(1.08)}
 .play-btn svg{width:26px;height:26px;fill:white;margin-left:4px}
-/* Hide thumb when playing */
 .video-wrap.playing .thumb-overlay{opacity:0;pointer-events:none}
-
 .skeleton{background:linear-gradient(90deg,var(--border) 25%,#2e2f32 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .card-body{padding:1rem 1.1rem 1.2rem}
 .card-channel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem;min-height:14px}
 .card-title{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:.5rem;color:var(--text);min-height:40px}
 .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted)}
-
-/* STATS */
 .stats-wrapper{max-width:1400px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem)}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden}
@@ -84,94 +101,207 @@ h1 em{font-style:italic;color:var(--accent)}
 .badge-blue{background:rgba(79,142,247,.15);color:var(--accent2)}
 .stats-reset-btn{margin-top:1.5rem;padding:.5rem 1.2rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s}
 .stats-reset-btn:hover{border-color:#555;color:var(--text)}
-
 #unmute-bar{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:.6rem 1.5rem;border-radius:100px;font-size:.85rem;font-weight:500;cursor:pointer;z-index:200;display:none;box-shadow:0 4px 24px rgba(232,197,71,.4);white-space:nowrap;animation:popIn .3s ease}
 @keyframes popIn{from{transform:translateX(-50%) scale(.9);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+
+/* Expire overlay */
+#expire-overlay{position:fixed;inset:0;background:rgba(14,15,17,.97);z-index:998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center}
+#expire-overlay.show{display:flex}
+#expire-overlay h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text)}
+#expire-overlay p{color:var(--muted);font-size:.9rem}
+#expire-overlay button{margin-top:.5rem;background:var(--accent);color:#000;border:none;padding:.7rem 1.8rem;border-radius:7px;font-size:.9rem;font-weight:500;cursor:pointer}
+
 footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
 @media(max-width:600px){.hero{grid-template-columns:1fr}.hero-meta{text-align:left}}
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">Video<span>Vault</span></a>
-  <ul>
-    <li><button class="tab-btn active" onclick="switchTab('videos',this)">Videos</button></li>
-    <li><button class="tab-btn" onclick="switchTab('stats',this)">📊 Stats</button></li>
-  </ul>
-</nav>
-
-<div class="hero">
-  <div>
-    <div class="hero-tag">Daily Picks</div>
-    <h1>The internet's best<br><em>videos</em>, curated.</h1>
-  </div>
-  <div class="hero-meta">
-    <strong>20</strong>videos today
+<!-- ── LOGIN PAGE ── -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="login-logo">Video<span>Vault</span></div>
+    <div class="login-sub">Enter your access password to continue</div>
+    <label class="login-label" for="pw-input">Password</label>
+    <input class="login-input" id="pw-input" type="password" placeholder="••••••••" autocomplete="off"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Enter →</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-expire">Session expires after <span>1 hour</span></div>
   </div>
 </div>
 
-<div id="tab-videos" class="tab-content active">
-  <div class="grid-wrapper">
-    <div class="section-header">
-      <h2 class="section-title">Today's Collection</h2>
-      <span class="section-count">20 videos</span>
+<!-- ── SESSION EXPIRED OVERLAY ── -->
+<div id="expire-overlay">
+  <h2>Session Expired</h2>
+  <p>Your 1-hour session has ended. Please log in again.</p>
+  <button onclick="showLogin()">Log In Again</button>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app">
+  <nav>
+    <a href="#" class="logo">Video<span>Vault</span></a>
+    <ul>
+      <li><button class="tab-btn active" onclick="switchTab('videos',this)">Videos</button></li>
+      <li><button class="tab-btn" onclick="switchTab('stats',this)">📊 Stats</button></li>
+    </ul>
+    <div class="session-timer" id="session-timer">60:00</div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="hero-tag">Daily Picks</div>
+      <h1>The internet's best<br><em>videos</em>, curated.</h1>
     </div>
-    <div class="video-grid" id="video-grid"></div>
+    <div class="hero-meta"><strong>20</strong>videos today</div>
   </div>
-</div>
 
-<div id="tab-stats" class="tab-content">
-  <div class="stats-wrapper">
-    <div class="stats-grid">
-      <div class="stat-card views"><div class="stat-label">Total Views Generated</div><div class="stat-value" id="stat-views">0</div><div class="stat-sub" id="stat-views-today">+0 today</div></div>
-      <div class="stat-card hours"><div class="stat-label">Watch Hours Generated</div><div class="stat-value" id="stat-hours">0</div><div class="stat-sub" id="stat-hours-sub">minutes watched</div></div>
-      <div class="stat-card users"><div class="stat-label">Unique Visitors</div><div class="stat-value" id="stat-users">0</div><div class="stat-sub">sessions tracked</div></div>
-      <div class="stat-card sessions"><div class="stat-label">Videos Played</div><div class="stat-value" id="stat-played">0</div><div class="stat-sub">across all sessions</div></div>
+  <div id="tab-videos" class="tab-content active">
+    <div class="grid-wrapper">
+      <div class="section-header">
+        <h2 class="section-title">Today's Collection</h2>
+        <span class="section-count">20 videos</span>
+      </div>
+      <div class="video-grid" id="video-grid"></div>
     </div>
-    <h3 class="stats-section-title">Per-Video Breakdown</h3>
-    <table class="video-stats-table">
-      <thead><tr><th>#</th><th>Title</th><th>YT Views</th><th>Bot Views</th><th>Watch Time</th><th>Progress</th><th>Status</th></tr></thead>
-      <tbody id="stats-tbody"></tbody>
-    </table>
-    <button class="stats-reset-btn" onclick="resetStats()">Reset session stats</button>
   </div>
-</div>
 
-<footer>
-  <span>© 2025 VideoVault. Curated with care.</span>
-  <span>Updated daily</span>
-</footer>
+  <div id="tab-stats" class="tab-content">
+    <div class="stats-wrapper">
+      <div class="stats-grid">
+        <div class="stat-card views"><div class="stat-label">Total Views Generated</div><div class="stat-value" id="stat-views">0</div><div class="stat-sub" id="stat-views-today">+0 today</div></div>
+        <div class="stat-card hours"><div class="stat-label">Watch Hours Generated</div><div class="stat-value" id="stat-hours">0</div><div class="stat-sub" id="stat-hours-sub">minutes watched</div></div>
+        <div class="stat-card users"><div class="stat-label">Unique Visitors</div><div class="stat-value" id="stat-users">0</div><div class="stat-sub">sessions tracked</div></div>
+        <div class="stat-card sessions"><div class="stat-label">Videos Played</div><div class="stat-value" id="stat-played">0</div><div class="stat-sub">across all sessions</div></div>
+      </div>
+      <h3 class="stats-section-title">Per-Video Breakdown</h3>
+      <table class="video-stats-table">
+        <thead><tr><th>#</th><th>Title</th><th>YT Views</th><th>Bot Views</th><th>Watch Time</th><th>Progress</th><th>Status</th></tr></thead>
+        <tbody id="stats-tbody"></tbody>
+      </table>
+      <button class="stats-reset-btn" onclick="resetStats()">Reset session stats</button>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 VideoVault. Curated with care.</span>
+    <span>Updated daily</span>
+  </footer>
+</div>
 
 <div id="unmute-bar" onclick="unmuteAll()">🔊 Click to unmute</div>
 
 <script>
-// ── PASSWORD PROTECTION (SHA-256 hashed — cannot be reversed) ────────────────
-// To generate a new hash: https://emn178.github.io/online-tools/sha256.html
-// Current password hash (SHA-256) — original password is never stored here:
-const ACCESS_HASH = '2654f57d9a5eb29013f82e316d22b1e4708e316a07ff76188cd11199a33d6a87';
+// ══════════════════════════════════════════════════════
+// PASSWORD & SESSION CONFIG
+// Password: kavi2026
+// To change: generate new SHA-256 at https://emn178.github.io/online-tools/sha256.html
+// ══════════════════════════════════════════════════════
+const ACCESS_HASH    = '1cff793fc5a58985fabd55c3a9bf3f1c2302c54a554939e20a28430716c312ce';
+const SESSION_MS     = 60 * 60 * 1000; // 1 hour in milliseconds
+const SESSION_KEY    = 'vv_session_exp';
 
-async function checkAccess() {
-  const params   = new URLSearchParams(window.location.search);
-  const provided = params.get('access');
-  if (!provided) { block(); return; }
-
-  // Hash what the user provided and compare — never store plain password
-  const encoded = new TextEncoder().encode(provided);
-  const hashBuf = await crypto.subtle.digest('SHA-256', encoded);
-  const hashHex = Array.from(new Uint8Array(hashBuf))
-    .map(b => b.toString(16).padStart(2, '0')).join('');
-
-  if (hashHex !== ACCESS_HASH) { block(); return; }
-  // Access granted — init() runs below
+// ── Hash function (SHA-256 via Web Crypto) ────────────
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-function block() {
-  document.documentElement.innerHTML = '';
-  document.title = '404';
-  throw new Error('Access denied');
+// ── Session helpers ───────────────────────────────────
+function getSessionExpiry()  { return parseInt(localStorage.getItem(SESSION_KEY) || '0'); }
+function setSession()        { localStorage.setItem(SESSION_KEY, Date.now() + SESSION_MS); }
+function clearSession()      { localStorage.removeItem(SESSION_KEY); }
+function isSessionValid()    { return getSessionExpiry() > Date.now(); }
+
+// ── Login logic ───────────────────────────────────────
+async function doLogin() {
+  const input = document.getElementById('pw-input');
+  const btn   = document.getElementById('login-btn');
+  const err   = document.getElementById('login-error');
+  const pw    = input.value.trim();
+
+  if (!pw) { showError('Please enter a password'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Checking...';
+
+  const hash = await sha256(pw);
+
+  if (hash === ACCESS_HASH) {
+    setSession();
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+    startSessionTimer();
+    initApp();
+  } else {
+    input.classList.add('error');
+    setTimeout(() => input.classList.remove('error'), 400);
+    showError('Incorrect password. Try again.');
+    input.value = '';
+    input.focus();
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Enter →';
 }
 
+function showError(msg) {
+  document.getElementById('login-error').textContent = msg;
+}
+
+function showLogin() {
+  clearSession();
+  document.getElementById('expire-overlay').classList.remove('show');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-page').classList.remove('hidden');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+// ── Session timer (countdown in nav) ─────────────────
+let sessionInterval = null;
+
+function startSessionTimer() {
+  if (sessionInterval) clearInterval(sessionInterval);
+
+  sessionInterval = setInterval(() => {
+    const remaining = getSessionExpiry() - Date.now();
+
+    if (remaining <= 0) {
+      clearInterval(sessionInterval);
+      // Expire — show overlay
+      document.getElementById('expire-overlay').classList.add('show');
+      return;
+    }
+
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    const label = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    const timerEl = document.getElementById('session-timer');
+    timerEl.textContent = label;
+
+    // Turn red when under 5 minutes
+    if (remaining < 5 * 60 * 1000) {
+      timerEl.classList.add('warning');
+    }
+  }, 1000);
+}
+
+// ── On page load: check existing session ─────────────
+window.addEventListener('DOMContentLoaded', () => {
+  if (isSessionValid()) {
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+    startSessionTimer();
+    initApp();
+  }
+  // else: login page stays visible by default
+});
+
+// ══════════════════════════════════════════════════════
+// MAIN APP
+// ══════════════════════════════════════════════════════
 const VIDEO_IDS = [
   'r5W5eLxNHiM','Woqb1oIpA1s','yOS2SG5mD7g','rfutY193NGw','KmYrGfboOI0',
   'LFGix7lmiBs','stswV7U5oZc','2bY5Bajuh6I','ic6ChEMtS-I','DRjj0xidzfM',
@@ -183,8 +313,9 @@ const YT_API_KEY = 'AIzaSyCZSFaetmI0vp0FFnqWjukv3-UHXz9UbL4';
 const meta = {};
 let isMuted = true;
 const watchTimers = {};
+const viewRecorded = {};
+let appInited = false;
 
-// ── Stats ─────────────────────────────────────────────
 const TODAY = new Date().toDateString();
 function loadStats(){try{return JSON.parse(localStorage.getItem('vv_stats')||'{}')}catch{return{}}}
 function saveStats(s){try{localStorage.setItem('vv_stats',JSON.stringify(s))}catch{}}
@@ -197,18 +328,11 @@ if(!stats.today)         stats.today=TODAY;
 if(!stats.todayViews)    stats.todayViews=0;
 if(!stats.perVideo)      stats.perVideo={};
 if(stats.today!==TODAY){stats.todayViews=0;stats.today=TODAY}
-stats.sessions++;
-saveStats(stats);
 
-// ── Helpers ───────────────────────────────────────────
 function fmtViews(n){if(!n&&n!==0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString()}
 function fmtTime(s){if(s<60)return s+'s';if(s<3600)return Math.round(s/60)+'m';return(s/3600).toFixed(1)+'h'}
 function timeAgo(){return['2h ago','5h ago','Yesterday','2 days ago','Today'][Math.floor(Math.random()*5)]}
-function parseDuration(iso){if(!iso)return 60;const m=iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);if(!m)return 60;return(parseInt(m[1]||0)*3600)+(parseInt(m[2]||0)*60)+parseInt(m[3]||0)}
 
-// ── Build card ────────────────────────────────────────
-// iframe src set immediately with autoplay=1&mute=1
-// thumbnail overlay sits on top — removed when .playing class added
 function buildCard(id, index) {
   const div = document.createElement('div');
   div.className = 'video-card';
@@ -237,11 +361,9 @@ function buildCard(id, index) {
   return div;
 }
 
-// ── Reveal video (remove thumb overlay, unmute if user wants) ─────────────────
 function revealVideo(id) {
   const wrap = document.getElementById(`wrap-${id}`);
   if (wrap) wrap.classList.add('playing');
-  // If user already clicked unmute, reload iframe without mute
   if (!isMuted) {
     const iframe = wrap?.querySelector('iframe');
     if (iframe) iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
@@ -249,9 +371,6 @@ function revealVideo(id) {
   showUnmuteBar();
 }
 
-// ── Autoplay reveal on scroll ─────────────────────────
-// iframe is already playing (muted) — we just remove the thumbnail overlay
-// when user scrolls to 50%+ of the card
 function setupScrollReveal() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -262,14 +381,12 @@ function setupScrollReveal() {
       }
     });
   }, { threshold: [0.5] });
-
   VIDEO_IDS.forEach(id => {
     const wrap = document.getElementById(`wrap-${id}`);
     if (wrap) obs.observe(wrap);
   });
 }
 
-// ── Watch timer — tracks all playing iframes ──────────
 function startAllWatchTimers() {
   VIDEO_IDS.forEach(id => {
     if (watchTimers[id]) return;
@@ -280,11 +397,9 @@ function startAllWatchTimers() {
       saveStats(stats);
     }, 1000);
   });
-  // Update display every 5 seconds
   setInterval(updateStatsDisplay, 5000);
 }
 
-const viewRecorded = {};
 function recordView(id) {
   if (viewRecorded[id]) return;
   viewRecorded[id] = true;
@@ -297,14 +412,12 @@ function recordView(id) {
   updateStatsDisplay();
 }
 
-// ── Mute / unmute ─────────────────────────────────────
 function showUnmuteBar() {
   if (isMuted) document.getElementById('unmute-bar').style.display = 'block';
 }
 function unmuteAll() {
   isMuted = false;
   document.getElementById('unmute-bar').style.display = 'none';
-  // Reload ALL visible (playing) iframes unmuted
   VIDEO_IDS.forEach(id => {
     const wrap = document.getElementById(`wrap-${id}`);
     if (wrap && wrap.classList.contains('playing')) {
@@ -314,7 +427,6 @@ function unmuteAll() {
   });
 }
 
-// ── Update card metadata ──────────────────────────────
 function updateCard(id) {
   const m = meta[id]; if (!m) return;
   const ch    = document.getElementById(`ch-${id}`);
@@ -327,9 +439,7 @@ function updateCard(id) {
   if (img && m.thumb) img.src = m.thumb;
 }
 
-// ── Fetch metadata ────────────────────────────────────
 async function fetchAllMeta() {
-  // oEmbed for titles first (no API key needed)
   await Promise.allSettled(VIDEO_IDS.map(async id => {
     try {
       const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
@@ -338,11 +448,8 @@ async function fetchAllMeta() {
       updateCard(id);
     } catch { meta[id] = { title: id, channel: 'VideoVault', thumb: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, ytViews: null }; updateCard(id); }
   }));
-
-  // YouTube Data API for real view counts
   try {
-    const ids = VIDEO_IDS.join(',');
-    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${ids}&key=${YT_API_KEY}`);
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${VIDEO_IDS.join(',')}&key=${YT_API_KEY}`);
     const d = await r.json();
     if (!d.error) {
       (d.items||[]).forEach(item => {
@@ -356,19 +463,17 @@ async function fetchAllMeta() {
       });
     }
   } catch(e) { console.warn('YT API failed:', e); }
-
   renderStatsTable();
 }
 
-// ── Stats display ─────────────────────────────────────
 function updateStatsDisplay() {
   const sec = stats.totalWatchSec||0;
   const hrs = sec/3600;
-  document.getElementById('stat-views').textContent    = (stats.totalViews||0).toLocaleString();
-  document.getElementById('stat-hours').textContent    = hrs>=1 ? hrs.toFixed(1) : Math.round(sec/60);
-  document.getElementById('stat-hours-sub').textContent= hrs>=1 ? 'watch hours' : 'minutes watched';
-  document.getElementById('stat-users').textContent    = (stats.sessions||0).toLocaleString();
-  document.getElementById('stat-played').textContent   = (stats.totalPlayed||0).toLocaleString();
+  document.getElementById('stat-views').textContent     = (stats.totalViews||0).toLocaleString();
+  document.getElementById('stat-hours').textContent     = hrs>=1 ? hrs.toFixed(1) : Math.round(sec/60);
+  document.getElementById('stat-hours-sub').textContent = hrs>=1 ? 'watch hours' : 'minutes watched';
+  document.getElementById('stat-users').textContent     = (stats.sessions||0).toLocaleString();
+  document.getElementById('stat-played').textContent    = (stats.totalPlayed||0).toLocaleString();
   document.getElementById('stat-views-today').textContent = `+${stats.todayViews||0} today`;
 }
 
@@ -408,7 +513,6 @@ function switchTab(name, btn) {
   if(name==='stats'){updateStatsDisplay();renderStatsTable();}
 }
 
-// ── Fade in cards ─────────────────────────────────────
 function setupFadeIn() {
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
@@ -416,18 +520,19 @@ function setupFadeIn() {
   document.querySelectorAll('.video-card').forEach(c=>obs.observe(c));
 }
 
-// ── INIT ──────────────────────────────────────────────
-function init() {
+function initApp() {
+  if (appInited) return;
+  appInited = true;
+  stats.sessions++;
+  saveStats(stats);
   const grid = document.getElementById('video-grid');
   VIDEO_IDS.forEach((id,i) => grid.appendChild(buildCard(id,i)));
   setupFadeIn();
-  setupScrollReveal();   // reveals thumbnail → shows iframe when scrolled into view
-  startAllWatchTimers(); // all iframes playing in bg from page load
+  setupScrollReveal();
+  startAllWatchTimers();
   updateStatsDisplay();
-  fetchAllMeta();        // loads real titles + view counts
+  fetchAllMeta();
 }
-
-checkAccess().then(() => init()).catch(() => {});
 </script>
 </body>
 </html>
