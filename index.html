@@ -8,16 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0e0f11; --surface:#161719; --border:#2a2b2e;
-  --accent:#e8c547; --accent2:#4f8ef7; --green:#3ecf8e;
-  --text:#e8e6e0; --muted:#6b6966; --card:#1c1d20;
-}
+:root{--bg:#0e0f11;--border:#2a2b2e;--accent:#e8c547;--accent2:#4f8ef7;--green:#3ecf8e;--text:#e8e6e0;--muted:#6b6966;--card:#1c1d20}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:.4}
-
-/* NAV */
 nav{position:sticky;top:0;z-index:50;background:rgba(14,15,17,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,4vw,3rem);display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
 .logo span{color:var(--accent)}
@@ -25,8 +19,6 @@ nav ul{display:flex;gap:0;list-style:none}
 .tab-btn{padding:.4rem 1.1rem;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:color .2s;border-bottom:2px solid transparent}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-
-/* HERO */
 .hero{padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,3rem) clamp(2rem,5vw,3rem);max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;border-bottom:1px solid var(--border)}
 .hero-tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
 .hero-tag::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
@@ -34,19 +26,8 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-we
 h1 em{font-style:italic;color:var(--accent)}
 .hero-meta{text-align:right;color:var(--muted);font-size:.82rem;line-height:1.8}
 .hero-meta strong{display:block;font-size:2rem;font-family:'Playfair Display',serif;color:var(--text);font-weight:400}
-
-/* API KEY NOTICE */
-#api-notice{display:none!important}
-#api-notice a{color:var(--accent);text-decoration:underline}
-#api-key-input{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.35rem .7rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;width:260px}
-#api-key-input::placeholder{color:var(--muted)}
-#save-key-btn{background:var(--accent);color:#000;border:none;border-radius:6px;padding:.35rem .8rem;font-size:.8rem;font-weight:500;cursor:pointer;white-space:nowrap}
-
-/* TABS CONTENT */
 .tab-content{display:none}
 .tab-content.active{display:block}
-
-/* VIDEOS TAB */
 .grid-wrapper{max-width:1400px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem)}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem}
 .section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;letter-spacing:-.02em}
@@ -59,25 +40,26 @@ h1 em{font-style:italic;color:var(--accent)}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 .video-card:hover{transform:translateY(-3px);border-color:#3a3b3e}
 
-.video-wrap{position:relative;padding-bottom:56.25%;background:#000;cursor:pointer}
-.video-wrap .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .3s}
-.video-wrap .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
-.video-wrap:hover .play-btn{background:rgba(232,197,71,.9);transform:translate(-50%,-50%) scale(1.08)}
+/* VIDEO WRAP — iframe always present, thumb overlaid on top */
+.video-wrap{position:relative;padding-bottom:56.25%;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+/* Thumb overlay — hidden once playing class added */
+.thumb-overlay{position:absolute;inset:0;z-index:2;cursor:pointer;transition:opacity .3s}
+.thumb-overlay img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb-overlay .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.thumb-overlay:hover .play-btn{background:rgba(232,197,71,.9);transform:translate(-50%,-50%) scale(1.08)}
 .play-btn svg{width:26px;height:26px;fill:white;margin-left:4px}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:none}
-.video-wrap.playing .thumb,.video-wrap.playing .play-btn{opacity:0;pointer-events:none}
-.video-wrap.playing iframe{display:block}
+/* Hide thumb when playing */
+.video-wrap.playing .thumb-overlay{opacity:0;pointer-events:none}
 
-/* Skeleton */
 .skeleton{background:linear-gradient(90deg,var(--border) 25%,#2e2f32 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
 .card-body{padding:1rem 1.1rem 1.2rem}
 .card-channel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem;min-height:14px}
 .card-title{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:.5rem;color:var(--text);min-height:40px}
 .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted)}
 
-/* STATS TAB */
+/* STATS */
 .stats-wrapper{max-width:1400px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem)}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden}
@@ -89,29 +71,24 @@ h1 em{font-style:italic;color:var(--accent)}
 .stat-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
 .stat-value{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;letter-spacing:-.03em;line-height:1}
 .stat-sub{font-size:.75rem;color:var(--muted);margin-top:.4rem}
-
-.stats-section-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:1rem;color:var(--text)}
+.stats-section-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:1rem}
 .video-stats-table{width:100%;border-collapse:collapse;font-size:.82rem}
 .video-stats-table th{text-align:left;padding:.6rem .8rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);font-weight:400}
 .video-stats-table td{padding:.65rem .8rem;border-bottom:1px solid rgba(42,43,46,.5);color:var(--text)}
 .video-stats-table tr:hover td{background:rgba(255,255,255,.02)}
 .td-title{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.td-bar{min-width:120px}
-.bar-wrap{background:var(--border);border-radius:100px;height:4px;overflow:hidden}
+.bar-wrap{background:var(--border);border-radius:100px;height:4px;overflow:hidden;min-width:80px}
 .bar-fill{height:100%;background:var(--accent);border-radius:100px;transition:width .6s ease}
 .badge{display:inline-block;padding:.2rem .5rem;border-radius:4px;font-size:.68rem;font-weight:500}
 .badge-green{background:rgba(62,207,142,.15);color:var(--green)}
 .badge-blue{background:rgba(79,142,247,.15);color:var(--accent2)}
-
 .stats-reset-btn{margin-top:1.5rem;padding:.5rem 1.2rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s}
 .stats-reset-btn:hover{border-color:#555;color:var(--text)}
 
-/* UNMUTE BAR */
-#unmute-bar{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:.6rem 1.5rem;border-radius:100px;font-size:.85rem;font-weight:500;cursor:pointer;z-index:200;display:none;box-shadow:0 4px 24px rgba(232,197,71,.4);animation:popIn .3s ease;white-space:nowrap}
+#unmute-bar{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:.6rem 1.5rem;border-radius:100px;font-size:.85rem;font-weight:500;cursor:pointer;z-index:200;display:none;box-shadow:0 4px 24px rgba(232,197,71,.4);white-space:nowrap;animation:popIn .3s ease}
 @keyframes popIn{from{transform:translateX(-50%) scale(.9);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
-
 footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
-@media(max-width:600px){.hero{grid-template-columns:1fr}.hero-meta{text-align:left}#api-notice{flex-direction:column;align-items:flex-start}}
+@media(max-width:600px){.hero{grid-template-columns:1fr}.hero-meta{text-align:left}}
 </style>
 </head>
 <body>
@@ -130,72 +107,33 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-
     <h1>The internet's best<br><em>videos</em>, curated.</h1>
   </div>
   <div class="hero-meta">
-    <strong id="video-count">20</strong>
-    videos today
+    <strong>20</strong>videos today
   </div>
 </div>
 
-<!-- API key notice -->
-<div id="api-notice">
-  <span>⚡ Add a free YouTube API key to show <strong>real view counts</strong> —
-    <a href="https://console.cloud.google.com/" target="_blank">get one free here</a> (takes 2 min)</span>
-  <input id="api-key-input" type="text" placeholder="Paste API key here..." />
-  <button id="save-key-btn" onclick="saveApiKey()">Save</button>
-</div>
-
-<!-- VIDEOS TAB -->
 <div id="tab-videos" class="tab-content active">
   <div class="grid-wrapper">
     <div class="section-header">
       <h2 class="section-title">Today's Collection</h2>
-      <span class="section-count" id="showing-count">20 videos</span>
+      <span class="section-count">20 videos</span>
     </div>
     <div class="video-grid" id="video-grid"></div>
   </div>
 </div>
 
-<!-- STATS TAB -->
 <div id="tab-stats" class="tab-content">
   <div class="stats-wrapper">
     <div class="stats-grid">
-      <div class="stat-card views">
-        <div class="stat-label">Total Views Generated</div>
-        <div class="stat-value" id="stat-views">0</div>
-        <div class="stat-sub" id="stat-views-today">+0 today</div>
-      </div>
-      <div class="stat-card hours">
-        <div class="stat-label">Watch Hours Generated</div>
-        <div class="stat-value" id="stat-hours">0</div>
-        <div class="stat-sub" id="stat-hours-sub">estimated hours</div>
-      </div>
-      <div class="stat-card users">
-        <div class="stat-label">Unique Visitors</div>
-        <div class="stat-value" id="stat-users">0</div>
-        <div class="stat-sub">sessions tracked</div>
-      </div>
-      <div class="stat-card sessions">
-        <div class="stat-label">Videos Played</div>
-        <div class="stat-value" id="stat-played">0</div>
-        <div class="stat-sub" id="stat-played-sub">across all sessions</div>
-      </div>
+      <div class="stat-card views"><div class="stat-label">Total Views Generated</div><div class="stat-value" id="stat-views">0</div><div class="stat-sub" id="stat-views-today">+0 today</div></div>
+      <div class="stat-card hours"><div class="stat-label">Watch Hours Generated</div><div class="stat-value" id="stat-hours">0</div><div class="stat-sub" id="stat-hours-sub">minutes watched</div></div>
+      <div class="stat-card users"><div class="stat-label">Unique Visitors</div><div class="stat-value" id="stat-users">0</div><div class="stat-sub">sessions tracked</div></div>
+      <div class="stat-card sessions"><div class="stat-label">Videos Played</div><div class="stat-value" id="stat-played">0</div><div class="stat-sub">across all sessions</div></div>
     </div>
-
     <h3 class="stats-section-title">Per-Video Breakdown</h3>
-    <table class="video-stats-table" id="stats-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>YT Views</th>
-          <th>Bot Views</th>
-          <th>Watch Time</th>
-          <th>Progress</th>
-          <th>Status</th>
-        </tr>
-      </thead>
+    <table class="video-stats-table">
+      <thead><tr><th>#</th><th>Title</th><th>YT Views</th><th>Bot Views</th><th>Watch Time</th><th>Progress</th><th>Status</th></tr></thead>
       <tbody id="stats-tbody"></tbody>
     </table>
-
     <button class="stats-reset-btn" onclick="resetStats()">Reset session stats</button>
   </div>
 </div>
@@ -208,9 +146,6 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1rem,4vw,3rem);max-
 <div id="unmute-bar" onclick="unmuteAll()">🔊 Click to unmute</div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// VIDEO IDs — your channel
-// ══════════════════════════════════════════════════════
 const VIDEO_IDS = [
   'r5W5eLxNHiM','Woqb1oIpA1s','yOS2SG5mD7g','rfutY193NGw','KmYrGfboOI0',
   'LFGix7lmiBs','stswV7U5oZc','2bY5Bajuh6I','ic6ChEMtS-I','DRjj0xidzfM',
@@ -218,286 +153,122 @@ const VIDEO_IDS = [
   '-2eFHKZJiww','toFlH20WvGg','CdzuwCsLJfM','HkkG5EPuAqc','ka3bri1_2MM'
 ];
 
-// Metadata cache
-const meta = {}; // id → {title, channel, thumb, ytViews, duration}
+const YT_API_KEY = 'AIzaSyCZSFaetmI0vp0FFnqWjukv3-UHXz9UbL4';
+const meta = {};
+let isMuted = true;
+const watchTimers = {};
 
-// ── Stats (localStorage) ──────────────────────────────
+// ── Stats ─────────────────────────────────────────────
 const TODAY = new Date().toDateString();
-
-function loadStats() {
-  try { return JSON.parse(localStorage.getItem('vv_stats') || '{}'); } catch { return {}; }
-}
-function saveStats(s) {
-  try { localStorage.setItem('vv_stats', JSON.stringify(s)); } catch {}
-}
-
+function loadStats(){try{return JSON.parse(localStorage.getItem('vv_stats')||'{}')}catch{return{}}}
+function saveStats(s){try{localStorage.setItem('vv_stats',JSON.stringify(s))}catch{}}
 let stats = loadStats();
-if (!stats.sessions)      stats.sessions = 0;
-if (!stats.totalViews)    stats.totalViews = 0;
-if (!stats.totalPlayed)   stats.totalPlayed = 0;
-if (!stats.totalWatchSec) stats.totalWatchSec = 0;
-if (!stats.today)         stats.today = TODAY;
-if (!stats.todayViews)    stats.todayViews = 0;
-if (!stats.perVideo)      stats.perVideo = {};
-if (stats.today !== TODAY) { stats.todayViews = 0; stats.today = TODAY; }
-
-// New session
+if(!stats.sessions)      stats.sessions=0;
+if(!stats.totalViews)    stats.totalViews=0;
+if(!stats.totalPlayed)   stats.totalPlayed=0;
+if(!stats.totalWatchSec) stats.totalWatchSec=0;
+if(!stats.today)         stats.today=TODAY;
+if(!stats.todayViews)    stats.todayViews=0;
+if(!stats.perVideo)      stats.perVideo={};
+if(stats.today!==TODAY){stats.todayViews=0;stats.today=TODAY}
 stats.sessions++;
 saveStats(stats);
 
-// ── API Key ───────────────────────────────────────────
-function getApiKey() { return localStorage.getItem('yt_api_key') || 'AIzaSyCZSFaetmI0vp0FFnqWjukv3-UHXz9UbL4'; }
-function saveApiKey() {
-  const key = document.getElementById('api-key-input').value.trim();
-  if (key) {
-    localStorage.setItem('yt_api_key', key);
-    document.getElementById('api-notice').innerHTML = '✓ API key saved! Reloading real view counts...';
-    document.getElementById('api-notice').style.color = 'var(--green)';
-    setTimeout(() => fetchAllMeta(), 500);
-  }
-}
+// ── Helpers ───────────────────────────────────────────
+function fmtViews(n){if(!n&&n!==0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString()}
+function fmtTime(s){if(s<60)return s+'s';if(s<3600)return Math.round(s/60)+'m';return(s/3600).toFixed(1)+'h'}
+function timeAgo(){return['2h ago','5h ago','Yesterday','2 days ago','Today'][Math.floor(Math.random()*5)]}
+function parseDuration(iso){if(!iso)return 60;const m=iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);if(!m)return 60;return(parseInt(m[1]||0)*3600)+(parseInt(m[2]||0)*60)+parseInt(m[3]||0)}
 
-// Pre-fill if key already saved
-window.addEventListener('DOMContentLoaded', () => {
-  const saved = getApiKey();
-  if (saved) {
-    document.getElementById('api-key-input').value = saved;
-    document.getElementById('api-notice').innerHTML =
-      `✓ API key active — showing real view counts &nbsp;
-       <button onclick="localStorage.removeItem('yt_api_key');location.reload()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.2rem .5rem;cursor:pointer;font-size:.75rem">Remove</button>`;
-    document.getElementById('api-notice').style.color = 'var(--green)';
-  }
-});
-
-// ── Fetch metadata ────────────────────────────────────
-async function fetchOembed(id) {
-  const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
-  const res = await fetch(url);
-  const d   = await res.json();
-  return {
-    title:   d.title       || id,
-    channel: d.author_name || 'VideoVault',
-    thumb:   d.thumbnail_url || `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-    ytViews: null,
-    duration: null,
-  };
-}
-
-async function fetchYTApi(ids) {
-  const key = getApiKey();
-  if (!key) return;
-  const joined = ids.join(',');
-  const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails,snippet&id=${joined}&key=${key}`;
-  try {
-    const res  = await fetch(url);
-    const data = await res.json();
-    if (data.error) { console.warn('YT API error:', data.error.message); return; }
-    for (const item of (data.items || [])) {
-      const id = item.id;
-      if (!meta[id]) meta[id] = {};
-      meta[id].ytViews  = parseInt(item.statistics?.viewCount || 0);
-      meta[id].duration = parseDuration(item.contentDetails?.duration);
-      meta[id].title    = item.snippet?.title    || meta[id].title;
-      meta[id].channel  = item.snippet?.channelTitle || meta[id].channel;
-      meta[id].thumb    = item.snippet?.thumbnails?.high?.url || meta[id].thumb;
-      updateCard(id);
-    }
-  } catch(e) { console.warn('YT API fetch failed:', e); }
-}
-
-function parseDuration(iso) {
-  if (!iso) return 60;
-  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!m) return 60;
-  return (parseInt(m[1]||0)*3600) + (parseInt(m[2]||0)*60) + parseInt(m[3]||0);
-}
-
-async function fetchAllMeta() {
-  // Fetch oEmbed in parallel for titles/thumbs
-  await Promise.allSettled(VIDEO_IDS.map(async id => {
-    try {
-      const d = await fetchOembed(id);
-      meta[id] = { ...d, ...(meta[id]||{}) };
-      updateCard(id);
-    } catch {}
-  }));
-
-  // Then batch fetch real view counts + durations if API key present
-  if (getApiKey()) {
-    // Batch in groups of 50 (API limit)
-    for (let i = 0; i < VIDEO_IDS.length; i += 50) {
-      await fetchYTApi(VIDEO_IDS.slice(i, i+50));
-    }
-  }
-
-  renderStatsTable();
-}
-
-// ── Format numbers ────────────────────────────────────
-function fmtViews(n) {
-  if (!n && n !== 0) return '—';
-  if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
-  if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
-  return n.toString();
-}
-function fmtTime(sec) {
-  if (sec < 3600) return Math.round(sec/60) + ' min';
-  return (sec/3600).toFixed(1) + ' hrs';
-}
-function timeAgo() {
-  return ['2h ago','5h ago','Yesterday','2 days ago','Today'][Math.floor(Math.random()*5)];
-}
-
-// ── Build skeleton card ───────────────────────────────
+// ── Build card ────────────────────────────────────────
+// iframe src set immediately with autoplay=1&mute=1
+// thumbnail overlay sits on top — removed when .playing class added
 function buildCard(id, index) {
   const div = document.createElement('div');
   div.className = 'video-card';
   div.id = `card-${id}`;
   div.style.animationDelay = `${index * 0.05}s`;
   div.innerHTML = `
-    <div class="video-wrap" id="wrap-${id}" onclick="playVideo('${id}')">
-      <img class="thumb" src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="thumbnail" loading="lazy">
-      <div class="play-btn">
-        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+    <div class="video-wrap" id="wrap-${id}">
+      <iframe
+        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <div class="thumb-overlay" id="thumb-${id}" onclick="revealVideo('${id}')">
+        <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="thumbnail" loading="lazy">
+        <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
       </div>
-      <iframe id="iframe-${id}" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
     </div>
     <div class="card-body">
       <div class="card-channel skeleton" id="ch-${id}" style="height:12px;width:40%;margin-bottom:6px">&nbsp;</div>
-      <div class="card-title">
-        <span class="skeleton" id="title-${id}" style="display:block;height:16px;width:85%;margin-bottom:5px">&nbsp;</span>
-        <span class="skeleton" id="title2-${id}" style="display:block;height:16px;width:60%">&nbsp;</span>
-      </div>
+      <div class="card-title"><span class="skeleton" id="title-${id}" style="display:block;height:36px;width:90%">&nbsp;</span></div>
       <div class="card-footer">
-        <span id="views-${id}" class="skeleton" style="height:12px;width:60px;display:inline-block">&nbsp;</span>
+        <span id="views-${id}" class="skeleton" style="height:12px;width:70px;display:inline-block">&nbsp;</span>
         <span>${timeAgo()}</span>
       </div>
     </div>`;
   return div;
 }
 
-// ── Update card with real data ────────────────────────
-function updateCard(id) {
-  const m = meta[id];
-  if (!m) return;
-
-  const chEl     = document.getElementById(`ch-${id}`);
-  const titleEl  = document.getElementById(`title-${id}`);
-  const title2El = document.getElementById(`title2-${id}`);
-  const viewsEl  = document.getElementById(`views-${id}`);
-  const thumbEl  = document.querySelector(`#wrap-${id} .thumb`);
-
-  if (chEl) { chEl.classList.remove('skeleton'); chEl.textContent = m.channel || ''; }
-  if (titleEl) {
-    titleEl.classList.remove('skeleton'); titleEl.style = '';
-    titleEl.textContent = m.title || '';
+// ── Reveal video (remove thumb overlay, unmute if user wants) ─────────────────
+function revealVideo(id) {
+  const wrap = document.getElementById(`wrap-${id}`);
+  if (wrap) wrap.classList.add('playing');
+  // If user already clicked unmute, reload iframe without mute
+  if (!isMuted) {
+    const iframe = wrap?.querySelector('iframe');
+    if (iframe) iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
   }
-  if (title2El) { title2El.remove(); }
-  if (viewsEl) {
-    viewsEl.classList.remove('skeleton'); viewsEl.style = '';
-    viewsEl.textContent = m.ytViews !== null
-      ? '▶ ' + fmtViews(m.ytViews) + ' views'
-      : '▶ Loading...';
-  }
-  if (thumbEl && m.thumb) thumbEl.src = m.thumb;
-}
-
-// ── Playback ──────────────────────────────────────────
-let currentVideo = null;
-let isMuted      = true;
-const watchTimers = {};
-
-function playVideo(id) {
-  // Stop previous
-  if (currentVideo && currentVideo !== id) {
-    stopVideo(currentVideo);
-  }
-
-  currentVideo = id;
-  const wrap   = document.getElementById(`wrap-${id}`);
-  const iframe = document.getElementById(`iframe-${id}`);
-  if (!wrap || !iframe) return;
-
-  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=${isMuted?1:0}&rel=0&modestbranding=1&enablejsapi=1`;
-  wrap.classList.add('playing');
   showUnmuteBar();
-
-  // Track view
-  recordView(id);
-
-  // Track watch time
-  if (!watchTimers[id]) watchTimers[id] = 0;
-  const startTime = Date.now();
-  watchTimers[id] = setInterval(() => {
-    const elapsed = (Date.now() - startTime) / 1000;
-    stats.totalWatchSec = (stats.totalWatchSec || 0) + 1;
-    saveStats(stats);
-    updateStatsDisplay();
-    // Per-video watch time
-    if (!stats.perVideo[id]) stats.perVideo[id] = { views: 0, watchSec: 0 };
-    stats.perVideo[id].watchSec = (stats.perVideo[id].watchSec || 0) + 1;
-  }, 1000);
 }
 
-function stopVideo(id) {
-  const wrap   = document.getElementById(`wrap-${id}`);
-  const iframe = document.getElementById(`iframe-${id}`);
-  if (wrap)   wrap.classList.remove('playing');
-  if (iframe) iframe.src = '';
-  if (watchTimers[id]) { clearInterval(watchTimers[id]); delete watchTimers[id]; }
-}
-
-function recordView(id) {
-  stats.totalViews++;
-  stats.todayViews++;
-  stats.totalPlayed++;
-  if (!stats.perVideo[id]) stats.perVideo[id] = { views: 0, watchSec: 0 };
-  stats.perVideo[id].views = (stats.perVideo[id].views || 0) + 1;
-  saveStats(stats);
-  updateStatsDisplay();
-}
-
-// ── Autoplay on scroll ────────────────────────────────
-// Uses IntersectionObserver — triggers when video is 60% in viewport
-// Only autoplays ONE at a time (the most visible one)
-let autoplayLocked = false;
-
-function setupAutoplay() {
-  const observer = new IntersectionObserver((entries) => {
-    // Find most visible entry
-    let best = null, bestRatio = 0;
+// ── Autoplay reveal on scroll ─────────────────────────
+// iframe is already playing (muted) — we just remove the thumbnail overlay
+// when user scrolls to 50%+ of the card
+function setupScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting && e.intersectionRatio > bestRatio) {
-        bestRatio = e.intersectionRatio;
-        best = e.target;
+      if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+        const id = e.target.id.replace('wrap-','');
+        revealVideo(id);
+        recordView(id);
       }
     });
-
-    if (best && bestRatio >= 0.6) {
-      const id = best.id.replace('wrap-', '');
-      if (currentVideo !== id) {
-        playVideo(id);
-      }
-    }
-  }, {
-    threshold: [0, 0.3, 0.6, 0.9],
-    rootMargin: '-50px 0px'
-  });
+  }, { threshold: [0.5] });
 
   VIDEO_IDS.forEach(id => {
     const wrap = document.getElementById(`wrap-${id}`);
-    if (wrap) observer.observe(wrap);
+    if (wrap) obs.observe(wrap);
   });
 }
 
-// ── Fade-in on scroll ─────────────────────────────────
-function setupFadeIn() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.05 });
-  document.querySelectorAll('.video-card').forEach(c => obs.observe(c));
+// ── Watch timer — tracks all playing iframes ──────────
+function startAllWatchTimers() {
+  VIDEO_IDS.forEach(id => {
+    if (watchTimers[id]) return;
+    watchTimers[id] = setInterval(() => {
+      stats.totalWatchSec = (stats.totalWatchSec||0) + 1;
+      if (!stats.perVideo[id]) stats.perVideo[id] = {views:0, watchSec:0};
+      stats.perVideo[id].watchSec = (stats.perVideo[id].watchSec||0) + 1;
+      saveStats(stats);
+    }, 1000);
+  });
+  // Update display every 5 seconds
+  setInterval(updateStatsDisplay, 5000);
+}
+
+const viewRecorded = {};
+function recordView(id) {
+  if (viewRecorded[id]) return;
+  viewRecorded[id] = true;
+  stats.totalViews++;
+  stats.todayViews++;
+  stats.totalPlayed++;
+  if (!stats.perVideo[id]) stats.perVideo[id] = {views:0, watchSec:0};
+  stats.perVideo[id].views = (stats.perVideo[id].views||0) + 1;
+  saveStats(stats);
+  updateStatsDisplay();
 }
 
 // ── Mute / unmute ─────────────────────────────────────
@@ -507,79 +278,127 @@ function showUnmuteBar() {
 function unmuteAll() {
   isMuted = false;
   document.getElementById('unmute-bar').style.display = 'none';
-  if (currentVideo) {
-    const iframe = document.getElementById(`iframe-${currentVideo}`);
-    if (iframe) iframe.src = `https://www.youtube.com/embed/${currentVideo}?autoplay=1&mute=0&rel=0&modestbranding=1`;
-  }
+  // Reload ALL visible (playing) iframes unmuted
+  VIDEO_IDS.forEach(id => {
+    const wrap = document.getElementById(`wrap-${id}`);
+    if (wrap && wrap.classList.contains('playing')) {
+      const iframe = wrap.querySelector('iframe');
+      if (iframe) iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
+    }
+  });
+}
+
+// ── Update card metadata ──────────────────────────────
+function updateCard(id) {
+  const m = meta[id]; if (!m) return;
+  const ch    = document.getElementById(`ch-${id}`);
+  const title = document.getElementById(`title-${id}`);
+  const views = document.getElementById(`views-${id}`);
+  const img   = document.querySelector(`#thumb-${id} img`);
+  if (ch)    { ch.classList.remove('skeleton'); ch.textContent = m.channel||''; }
+  if (title) { title.classList.remove('skeleton'); title.style=''; title.textContent = m.title||''; }
+  if (views) { views.classList.remove('skeleton'); views.style=''; views.textContent = m.ytViews!=null ? '▶ '+fmtViews(m.ytViews)+' views' : '▶ —'; }
+  if (img && m.thumb) img.src = m.thumb;
+}
+
+// ── Fetch metadata ────────────────────────────────────
+async function fetchAllMeta() {
+  // oEmbed for titles first (no API key needed)
+  await Promise.allSettled(VIDEO_IDS.map(async id => {
+    try {
+      const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+      const d = await r.json();
+      meta[id] = { title: d.title, channel: d.author_name, thumb: d.thumbnail_url, ytViews: null };
+      updateCard(id);
+    } catch { meta[id] = { title: id, channel: 'VideoVault', thumb: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, ytViews: null }; updateCard(id); }
+  }));
+
+  // YouTube Data API for real view counts
+  try {
+    const ids = VIDEO_IDS.join(',');
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${ids}&key=${YT_API_KEY}`);
+    const d = await r.json();
+    if (!d.error) {
+      (d.items||[]).forEach(item => {
+        if (!meta[item.id]) meta[item.id] = {};
+        meta[item.id].ytViews = parseInt(item.statistics?.viewCount||0);
+        meta[item.id].title   = item.snippet?.title || meta[item.id].title;
+        meta[item.id].channel = item.snippet?.channelTitle || meta[item.id].channel;
+        const tn = item.snippet?.thumbnails;
+        if (tn) meta[item.id].thumb = (tn.high||tn.medium||tn.default)?.url || meta[item.id].thumb;
+        updateCard(item.id);
+      });
+    }
+  } catch(e) { console.warn('YT API failed:', e); }
+
+  renderStatsTable();
 }
 
 // ── Stats display ─────────────────────────────────────
 function updateStatsDisplay() {
-  const hours = (stats.totalWatchSec || 0) / 3600;
-  document.getElementById('stat-views').textContent   = (stats.totalViews || 0).toLocaleString();
-  document.getElementById('stat-hours').textContent   = hours >= 1 ? hours.toFixed(1) : Math.round((stats.totalWatchSec||0)/60);
-  document.getElementById('stat-hours-sub').textContent = hours >= 1 ? 'watch hours' : 'minutes watched';
-  document.getElementById('stat-users').textContent   = (stats.sessions || 0).toLocaleString();
-  document.getElementById('stat-played').textContent  = (stats.totalPlayed || 0).toLocaleString();
-  document.getElementById('stat-views-today').textContent = `+${stats.todayViews || 0} today`;
+  const sec = stats.totalWatchSec||0;
+  const hrs = sec/3600;
+  document.getElementById('stat-views').textContent    = (stats.totalViews||0).toLocaleString();
+  document.getElementById('stat-hours').textContent    = hrs>=1 ? hrs.toFixed(1) : Math.round(sec/60);
+  document.getElementById('stat-hours-sub').textContent= hrs>=1 ? 'watch hours' : 'minutes watched';
+  document.getElementById('stat-users').textContent    = (stats.sessions||0).toLocaleString();
+  document.getElementById('stat-played').textContent   = (stats.totalPlayed||0).toLocaleString();
+  document.getElementById('stat-views-today').textContent = `+${stats.todayViews||0} today`;
 }
 
 function renderStatsTable() {
   const tbody = document.getElementById('stats-tbody');
-  const maxViews = Math.max(1, ...VIDEO_IDS.map(id => stats.perVideo?.[id]?.views || 0));
-
-  tbody.innerHTML = VIDEO_IDS.map((id, i) => {
-    const m       = meta[id] || {};
-    const pv      = stats.perVideo?.[id] || {};
-    const botViews = pv.views    || 0;
-    const watchSec = pv.watchSec || 0;
-    const pct      = Math.round((botViews / maxViews) * 100);
-
+  if (!tbody) return;
+  const maxV = Math.max(1,...VIDEO_IDS.map(id=>stats.perVideo?.[id]?.views||0));
+  tbody.innerHTML = VIDEO_IDS.map((id,i) => {
+    const m  = meta[id]||{};
+    const pv = stats.perVideo?.[id]||{};
+    const bv = pv.views||0;
+    const ws = pv.watchSec||0;
+    const pct= Math.round((bv/maxV)*100);
     return `<tr>
       <td style="color:var(--muted)">${i+1}</td>
-      <td class="td-title">${m.title || id}</td>
-      <td>${m.ytViews !== undefined ? fmtViews(m.ytViews) : '<span style="color:var(--muted)">Add API key</span>'}</td>
-      <td><strong>${botViews}</strong></td>
-      <td>${fmtTime(watchSec)}</td>
-      <td class="td-bar"><div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div></td>
-      <td>${botViews > 0 ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-blue">Queued</span>'}</td>
+      <td class="td-title">${m.title||id}</td>
+      <td>${m.ytViews!=null?fmtViews(m.ytViews):'<span style="color:var(--muted)">—</span>'}</td>
+      <td><strong>${bv}</strong></td>
+      <td>${fmtTime(ws)}</td>
+      <td><div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div></td>
+      <td>${bv>0?'<span class="badge badge-green">Active</span>':'<span class="badge badge-blue">Queued</span>'}</td>
     </tr>`;
   }).join('');
 }
 
 function resetStats() {
-  if (!confirm('Reset all session stats?')) return;
-  stats = { sessions: 1, totalViews: 0, totalPlayed: 0, totalWatchSec: 0, today: TODAY, todayViews: 0, perVideo: {} };
-  saveStats(stats);
-  updateStatsDisplay();
-  renderStatsTable();
+  if(!confirm('Reset all session stats?'))return;
+  stats={sessions:1,totalViews:0,totalPlayed:0,totalWatchSec:0,today:TODAY,todayViews:0,perVideo:{}};
+  saveStats(stats); updateStatsDisplay(); renderStatsTable();
 }
 
-// ── Tab switching ─────────────────────────────────────
 function switchTab(name, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(`tab-${name}`).classList.add('active');
   btn.classList.add('active');
-  if (name === 'stats') { updateStatsDisplay(); renderStatsTable(); }
+  if(name==='stats'){updateStatsDisplay();renderStatsTable();}
+}
+
+// ── Fade in cards ─────────────────────────────────────
+function setupFadeIn() {
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.05});
+  document.querySelectorAll('.video-card').forEach(c=>obs.observe(c));
 }
 
 // ── INIT ──────────────────────────────────────────────
 function init() {
   const grid = document.getElementById('video-grid');
-  VIDEO_IDS.forEach((id, i) => grid.appendChild(buildCard(id, i)));
+  VIDEO_IDS.forEach((id,i) => grid.appendChild(buildCard(id,i)));
   setupFadeIn();
-
-  // Autoplay only fires after first user interaction (browser policy)
-  let interacted = false;
-  const enableAutoplay = () => {
-    if (!interacted) { interacted = true; setupAutoplay(); }
-  };
-  document.addEventListener('scroll', enableAutoplay, { once: true });
-  document.addEventListener('click',  enableAutoplay, { once: true });
-
+  setupScrollReveal();   // reveals thumbnail → shows iframe when scrolled into view
+  startAllWatchTimers(); // all iframes playing in bg from page load
   updateStatsDisplay();
-  fetchAllMeta();
+  fetchAllMeta();        // loads real titles + view counts
 }
 
 init();
