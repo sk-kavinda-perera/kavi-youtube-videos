@@ -211,7 +211,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,4vw,3rem);ma
       <!-- Playlist -->
       <div class="playlist-label">
         <span>Up Next — All Videos</span>
-        <span id="playlist-count" style="color:var(--accent)">20 videos</span>
+        <span id="playlist-count" style="color:var(--accent)" id="playlist-count">0 videos</span>
       </div>
       <div class="playlist" id="playlist"></div>
     </div>
@@ -551,6 +551,9 @@ function loadVideo(idx) {
 
 // ── Build playlist ────────────────────────────────────
 function buildPlaylist() {
+  // Update count dynamically
+  const countEl = document.getElementById('playlist-count');
+  if (countEl) countEl.textContent = VIDEO_IDS.length + ' video' + (VIDEO_IDS.length !== 1 ? 's' : '');
   const list = document.getElementById('playlist');
   list.innerHTML = VIDEO_IDS.map((id, i) => {
     const m = meta[id] || {};
@@ -626,7 +629,7 @@ function resetStats() {
 
 // ── Fetch metadata ────────────────────────────────────
 // Google API call breakdown:
-// - 1 API call fetches ALL 20 videos at once (not 1 per video)
+// - 1 API call fetches ALL videos at once (not 1 per video)
 // - Each call costs 1 unit (videos.list = 1 unit per call)
 // - Free quota = 10,000 units/day
 // - We make 1 call on page load = 1 unit used
@@ -645,7 +648,7 @@ async function fetchAllMeta() {
     } catch {}
   }));
 
-  // Step 2: ONE batch API call for all 20 videos = 1 unit used
+  // Step 2: ONE batch API call for all videos = 1 unit used
   try {
     const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet,contentDetails&id=${VIDEO_IDS.join(',')}&key=${YT_API_KEY}`;
     const r   = await fetch(url);
@@ -701,6 +704,9 @@ function initApp() {
 
   buildPlaylist();
   buildBreakdown();
+  // Update counts dynamically
+  const heroCount = document.getElementById('hero-count');
+  if (heroCount) heroCount.textContent = VIDEO_IDS.length;
   updateStatsDisplay();
 
   // Shuffle VIDEO_IDS for this session — random order every visit
@@ -709,6 +715,9 @@ function initApp() {
   _shuffled.forEach(id => VIDEO_IDS.push(id));
   buildPlaylist();
   buildBreakdown();
+  // Update counts dynamically
+  const heroCount = document.getElementById('hero-count');
+  if (heroCount) heroCount.textContent = VIDEO_IDS.length;
 
   // Start on first video of shuffled order
   const firstId = VIDEO_IDS[0];
